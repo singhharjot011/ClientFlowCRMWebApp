@@ -68,7 +68,6 @@ class RenderLogin extends Views {
           tempLoggedIn = false;
         }
         this.#signinContainer.innerHTML = tempSignInContainerHtml;
-        console.log(tempLoggedIn);
       }
     });
     return tempLoggedIn;

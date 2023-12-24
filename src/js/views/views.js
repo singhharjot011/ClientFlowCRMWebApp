@@ -26,7 +26,6 @@ export default class Views {
         </div>
         `;
     if (parentEl) {
-      console.log(parentEl);
       parentEl.innerHTML = "";
       parentEl.insertAdjacentHTML("afterbegin", markup);
     } else {
@@ -57,8 +56,6 @@ export default class Views {
     this._clear();
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
-
-  
 
   _employeeIdToName(assignedToId) {
     return this._employeeData

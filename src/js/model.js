@@ -7,6 +7,10 @@ export const state = {
   tasks: {},
 };
 
+const persistData = function () {
+  localStorage.setItem("myData", JSON.stringify(state));
+};
+
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);
