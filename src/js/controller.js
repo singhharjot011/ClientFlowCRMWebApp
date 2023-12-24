@@ -151,6 +151,18 @@ const saveDataInLocalStorage = () => {
           ],
           isLead: false,
         },
+        {
+          id: "I104",
+          name: "Pelu B",
+          email: "pelu.B@example.com",
+          phone: "+1 905-456-7890",
+          createdBy: "E201",
+          createdAt: "2023-12-23T09:30:00Z",
+          consultant: "E202",
+          isLead: true,
+          cases: [],
+          appointments: [],
+        },
       ],
     },
     {
@@ -213,6 +225,7 @@ const saveDataInLocalStorage = () => {
 
 const init = function () {
   saveDataInLocalStorage();
+
   // renderMenu.triggerEventListeners();
   location.hash = "";
   if (!renderLogin.addHandlerLogin()) {

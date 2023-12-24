@@ -22,25 +22,25 @@ const getLocalData = async function () {
 
 // **************** THIS CODE IS FOR API FETCH ***********************//
 
-// export const getJSON = async function (url) {
-//   try {
-//     // const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
-//     const res = await fetch(url);
-//     const data = await res.json();
-//     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-//     return data;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
-
-// **************** THIS CODE IS FOR FAKE FETCH FROM LOCAL STORAGE***********************//
-
-export const getJSON = async function () {
+export const getJSON = async function (url) {
   try {
-    const data = getLocalData();
+    // const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
     return data;
   } catch (err) {
     throw err;
   }
 };
+
+// **************** THIS CODE IS FOR FAKE FETCH FROM LOCAL STORAGE***********************//
+
+// export const getJSON = async function () {
+//   try {
+//     const data = getLocalData();
+//     return data;
+//   } catch (err) {
+//     throw err;
+//   }
+// };

@@ -5,6 +5,9 @@ export default class Views {
     this._data = data;
     this._employeeData = employeeData;
     this._taskData = taskData;
+    console.log(data);
+    console.log(employeeData);
+    console.log(taskData);
 
     const markup = this._generateMarkup();
     this._clear();
