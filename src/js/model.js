@@ -11,44 +11,6 @@ const persistData = function () {
   localStorage.setItem("myData", JSON.stringify(state));
 };
 
-// export const addClient = function () {
-//   return {
-//     id: "I106",
-//     name: "Pelu B",
-//     email: "pelu.B@example.com",
-//     phone: "+1 905-456-7890",
-//     createdBy: "E201",
-//     createdAt: "2023-12-23T09:30:00Z",
-//     consultant: "E202",
-//     isLead: true,
-//     cases: [],
-//     appointments: [],
-//   };
-// };
-
-// export const addEmployee = function () {
-//   return {
-//     employeeId: "E202",
-//     name: "Anisha Lee",
-//     position: "Assistant Manager",
-//   };
-// };
-
-// export const addTask = function () {
-//   return {
-//     id: "T100",
-//     description: "Case Update Requested",
-//     requestedBy: "E201",
-//     notes: "string",
-//     status: "Pending",
-//     due: "2023-12-25",
-//     completed: false,
-//     deleted: false,
-//     hidden: false,
-//     assignedTo: "E202",
-//   };
-// };
-
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);
@@ -90,3 +52,5 @@ export const loadTasks = async function (id) {
     throw err;
   }
 };
+
+

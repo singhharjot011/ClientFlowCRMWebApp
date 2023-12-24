@@ -13,6 +13,7 @@ class RenderTopPanel {
       this.#userInfoDD.classList.add("hidden");
       location.hash = "login";
       this.#isLoggedIn = false;
+      location.reload();
     }
 
     if (

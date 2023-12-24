@@ -7,50 +7,35 @@ class RenderLogin extends Views {
   #signinButton = document.querySelector(".btn-sign-in");
   #usernameInput = document.getElementById("username");
   #passwordInput = document.getElementById("password");
-  #users = [
-    { username: "user1", password: "password1", displayName: "User One" },
-    { username: "user2", password: "password2", displayName: "User Two" },
-  ];
 
-  constructor() {
-    super();
-  }
-
-  getUsernameInputValue() {
-    return this.#usernameInput.value;
-  }
-
-  getPasswordInputValue() {
-    return this.#passwordInput.value;
-  }
-
-  authentication() {
+  authentication(userCreds) {
     return new Promise((resolve, reject) => {
-      const enteredUsername = this.getUsernameInputValue();
-      const enteredPassword = this.getPasswordInputValue();
+      const enteredUsername = this.#usernameInput.value;
+      const enteredPassword = this.#passwordInput.value;
+
+      // Check if the entered credentials match any user
+
+      const user = userCreds.find(
+        (u) => u.username === enteredUsername && u.password === enteredPassword
+      );
+
+      if (user) {
+        // Successful sign-in
+
+        resolve(true);
+      } else {
+        // Failed sign-in
+        this.#errorMessage.textContent =
+          "Invalid username or password. Try Again!";
+        resolve(false);
+      }
 
       // Simulating an asynchronous operation (e.g., API request)
-      setTimeout(() => {
-        // Check if the entered credentials match any user
-        const user = this.#users.find(
-          (u) =>
-            u.username === enteredUsername && u.password === enteredPassword
-        );
-
-        if (user) {
-          // Successful sign-in
-          resolve(true);
-        } else {
-          // Failed sign-in
-          this.#errorMessage.textContent =
-            "Invalid username or password. Try Again!";
-          resolve(false);
-        }
-      }, 1000);
+      // setTimeout(() => {}, 1000);
     });
   }
 
-  addHandlerLogin() {
+  addHandlerLogin(userCreds) {
     let tempLoggedIn = true;
     let tempSignInContainerHtml = this.#signinContainer.innerHTML;
     this.#signinContainer.addEventListener("click", async (event) => {
@@ -58,16 +43,23 @@ class RenderLogin extends Views {
       if (event.target.matches(".btn-sign-in")) {
         this.renderSpinner(this.#signinContainer);
 
-        if (await this.authentication()) {
+        if (await this.authentication(userCreds)) {
           location.hash = "";
           location.hash = "dashboard";
           this.#signinContainer.classList.add("hidden");
           this.#applicationContainer.classList.remove("hidden");
+          this.#signinContainer.innerHTML = tempSignInContainerHtml;
           tempLoggedIn = true;
         } else {
-          tempLoggedIn = false;
+          console.log("this");
+          this.#signinContainer.innerHTML = `<div class="flex justify-center items-center text-xl h-screen w-screen">Incorrect Credentials Please try Again</div>`;
+          setTimeout(() => {
+            this.#signinContainer.innerHTML = tempSignInContainerHtml;
+          }, 2000);
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         }
-        this.#signinContainer.innerHTML = tempSignInContainerHtml;
       }
     });
     return tempLoggedIn;

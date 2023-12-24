@@ -1,5 +1,5 @@
 import * as model from "./model.js";
-import { isLoggedIn } from "./config.js";
+import { isLoggedIn, USERS } from "./config.js";
 import renderLogin from "./views/renderLogin.js";
 import renderDashboard from "./views/renderDashboard";
 import renderClients from "./views/renderClients.js";
@@ -34,6 +34,7 @@ const fetchData = async function () {
 
     await model.loadTasks(id);
     const { tasks } = model.state;
+
 
     // 2.) Rendering Main-Panel based on id
     id === "login" && renderLogin.addHandlerLogin();
@@ -154,14 +155,40 @@ const saveDataInLocalStorage = () => {
         {
           id: "I104",
           name: "Pelu B",
-          email: "pelu.B@example.com",
+          email: "john.B@example.com",
           phone: "+1 905-456-7890",
           createdBy: "E201",
-          createdAt: "2023-12-23T09:30:00Z",
+          createdAt: "2022-12-15T09:30:00Z",
           consultant: "E202",
-          isLead: true,
-          cases: [],
-          appointments: [],
+          cases: [
+            {
+              caseId: "C12346",
+              status: "Approved",
+              type: "Work Visa",
+              startDate: "2022-06-15",
+              endDate: "2023-06-15",
+              assignedTo: "E203",
+            },
+            {
+              caseId: "C12347",
+              status: "Approved",
+              type: "Permanent Residency",
+              startDate: "2021-03-10",
+              endDate: null,
+              assignedTo: "E202",
+            },
+          ],
+          appointments: [
+            {
+              appointmentId: "A98766",
+              date: "2022-12-01",
+              time: "15:30",
+              location: "123 Main St, City",
+              description: "Client consultation",
+              host: "E203",
+            },
+          ],
+          isLead: false,
         },
       ],
     },
@@ -218,7 +245,6 @@ const saveDataInLocalStorage = () => {
       ],
     },
   ];
-
   const myData = JSON.stringify(tempData);
   localStorage.setItem("myData", myData);
 };
@@ -228,10 +254,10 @@ const init = function () {
 
   // renderMenu.triggerEventListeners();
   location.hash = "";
-  if (!renderLogin.addHandlerLogin()) {
+  if (!renderLogin.addHandlerLogin(USERS)) {
     location.hash = "login";
   }
-  if (renderLogin.addHandlerLogin(isLoggedIn)) {
+  if (renderLogin.addHandlerLogin(USERS)) {
     renderClients.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient();
     renderTopPanel.triggerEventListeners();
