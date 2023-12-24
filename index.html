@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="src/css/style.css" rel="stylesheet" />
+    <meta name="description" content="Client Flow is CRM Web Application that allows you to establish Workflow"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="src/js/controller.js"></script>
+    <title>Client Flow CRM</title>
+  </head>
+  <body>
+    <section class="login">
+      <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img
+            class="mx-auto h-10 w-auto"
+            src="./src/img/logo-white.png"
+            alt="Tailwind Client Flow"
+          />
+          <h2
+            class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+          >
+            Sign in to your account
+          </h2>
+        </div>
+
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form class="space-y-6" action="#">
+            <div>
+              <label
+                for="username"
+                class="block text-sm font-medium leading-6 text-gray-900"
+                >Username</label
+              >
+              <div class="mt-2">
+                <input
+                  id="username"
+                  name="username"
+                  type="username"
+                  autocomplete="username"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between">
+                <label
+                  for="password"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Password</label
+                >
+                <!-- <div class="text-sm">
+                  <a
+                    href="#"
+                    class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    >Forgot password?</a
+                  >
+                </div> -->
+              </div>
+              <div class="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2"
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                class="btn-sign-in flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+          <p class="error-message mt-10 text-center text-sm text-gray-500"></p>
+          <p class="mt-10 text-center text-sm text-gray-500">
+            Don't have an account? Contact your Manager.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="application hidden">
+      <div class="flex text-fontColor">
+        <div
+          class="side-panel flex flex-col min-w-max justify-evenly bg-primaryBG"
+        >
+          <div class="elipsis text-xl flex items-center h-[10%] gap-4 p-3">
+            <img class="toggle" src="./src/img/white-pngs/menu.png" alt="Elipsis Icon" />
+            <h1 class="text-3xl">Client Flow</h1>
+          </div>
+          <div class="menu flex flex-col h-[90%] w-full justify-evenly">
+            <div
+              data-tab="dashboard"
+              class="menu-item dashboard-tab text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/dashboard.png" alt="Dashboard Icon" /><a
+                class=""
+                href="#dashboard"
+                >Dashboard</a
+              >
+            </div>
+            <div
+              data-tab="allClients"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/allClients.png" alt="Clients Icon" /><a
+                class=""
+                href="#allClients"
+                >All Clients</a
+              >
+            </div>
+            <div
+              data-tab="myClients"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/myClients.png" alt="Client Icon" /><a
+                href="#myClients"
+                >My Clients</a
+              >
+            </div>
+            <div
+              data-tab="calendar"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/calendar.png" alt="Calendar Icon" /><a
+                class=""
+                href="#calendar"
+                >Calendar</a
+              >
+            </div>
+            <div
+              data-tab="tasks"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/tasks.png" alt="Tasks Icon" /><a
+                class=""
+                href="#tasks"
+                >Tasks</a
+              >
+            </div>
+            <div
+              data-tab="cases"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/cases.png" alt="Cases Icon" /><a
+                class=""
+                href="#cases"
+                >Cases</a
+              >
+            </div>
+            <div
+              data-tab="knowledgeBase"
+              class="menu-item text-xl flex items-center gap-2 p-3"
+            >
+              <img src="./src/img/white-pngs/knowledgeBase.png" alt="KB Icon" /><a
+                class=""
+                href="#knowledgeBase"
+                >Knowledge Base</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- DASHBOARD AREA STARTS HERE -->
+        <div class="flex-col w-full text-gray-600">
+          <div
+            class="top-panel flex w-full justify-center items-center shadow-sm"
+          >
+            <div class="search-bar flex w-1/2">
+              <form
+                class="search flex w-full justify-evenly m-3 p-2 rounded-xl shadow-inner"
+              >
+                <input
+                  class="w-3/4 rounded-xl p-1"
+                  type="text"
+                  class="search__field"
+                  placeholder="Search..."
+                />
+                <button class="btn search__btn">
+                  <span class="flex"
+                    ><img class="h-5" src="./src/img/search.png" alt="Magnifier Icon"
+                  /></span>
+                </button>
+              </form>
+            </div>
+            <div class="user-options flex w-1/2 justify-end items-center gap-3">
+              <a href="#settings"
+                ><img class="h-7" src="./src/img/settings.png" alt="Gear Icon"
+              /></a>
+              <a href="#notifications"
+                ><img class="h-7" src="./src/img/bell.png" alt="Bell Icon"
+              /></a>
+              <img class="h-5" src="./src/img/dots.png" alt="3 Dots Icon" />
+              <div
+                class="user-info flex flex-col items-center font-semibold gap-2 relative"
+              >
+                <div class="flex items-center me-10">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="./src/img/avatar/avatar-anisha.png"
+                    alt="Profile Picture"
+                  />
+                  <span>Anisha Lee</span>
+                  <button class="btn-user-info-dropdown hover:scale-125">
+                    <img src="./src/img/arrowDown.png" alt="Arrow" />
+                  </button>
+                </div>
+                <div
+                  tabindex="0"
+                  class="user-info-dropdown absolute translate-y-10 right-0 transform z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                >
+                  <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="dropdownDelayButton"
+                  >
+                    <li>
+                      <button
+                        class="btn-profile w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Profile
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="btn-logout w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Log Out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Main Panel will be rendered conditionally -->
+          <div class="main-panel">
+            <!-- <div
+              class="analysis flex flex-wrap gap-10 p-10 text-neutral-200 shadow-sm"
+            >
+              <div
+                class="flex flex-col rounded-xl h-40 w-64 p-5 justify-between bg-gradient-to-r from-fuchsia-600 to-pink-600 relative"
+              >
+                <img
+                  class="absolute top-5 right-5 opacity-60"
+                  src="./src/img/white-pngs/allClients.png"
+                  alt=""
+                />
+                <span class="text-3xl">10</span>
+                <span class="text-2xl">New Clients </span
+                ><span>Last 7 Days</span>
+              </div>
+              <div
+                class="flex flex-col rounded-xl h-40 w-64 p-5 justify-between bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-red-500 to-red-700 relative"
+              >
+                <img
+                  class="absolute top-5 right-5 opacity-60"
+                  src="./src/img/white-pngs/tasks.png"
+                  alt=""
+                />
+                <span class="text-3xl">21</span
+                ><span class="text-2xl">Pending Tasks</span
+                ><span>Last 7 Days</span>
+              </div>
+              <div
+                class="flex flex-col rounded-xl h-40 w-64 p-5 justify-between bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-500 to-lime-700 relative"
+              >
+                <img
+                  class="absolute top-5 right-5 opacity-60"
+                  src="./src/img/white-pngs/myClients.png"
+                  alt=""
+                />
+                <span class="text-3xl">7</span
+                ><span class="text-2xl">New Leads</span><span>Last 7 Days</span>
+              </div>
+            </div>
+            <div class="alerts flex flex-col p-10">
+              <h3 class="text-2xl font-semibold p-2">Alerts</h3>
+              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table
+                  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                >
+                  <thead
+                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                  >
+                    <tr>
+                      <th scope="col" class="px-6 py-3">Alert Type</th>
+                      <th scope="col" class="px-6 py-3">Date and Time</th>
+                      <th scope="col" class="px-6 py-3">Client and Case ID</th>
+                      <th scope="col" class="px-6 py-3">Description</th>
+                      <th scope="col" class="px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        Case Updated
+                      </th>
+                      <td class="px-6 py-4">Dec 7,2023</td>
+                      <td class="px-6 py-4">C21547</td>
+                      <td class="px-6 py-4">Case has been updated</td>
+                      <td class="px-6 py-4 text-right">
+                        <a
+                          href="#"
+                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          >Open</a
+                        >
+                      </td>
+                    </tr>
+                    <tr
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        Appointment Reminder
+                      </th>
+                      <td class="px-6 py-4">Today</td>
+                      <td class="px-6 py-4">N/A</td>
+                      <td class="px-6 py-4">Team Meeting</td>
+                      <td class="px-6 py-4 text-right">
+                        <a
+                          href="#"
+                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          >Open</a
+                        >
+                      </td>
+                    </tr>
+                    <tr
+                      class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        New Case Assigned
+                      </th>
+                      <td class="px-6 py-4">2 Days Ago</td>
+                      <td class="px-6 py-4">C21058</td>
+                      <td class="px-6 py-4">Study Visa Case Assigned</td>
+                      <td class="px-6 py-4 text-right">
+                        <a
+                          href="#"
+                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          >Open</a
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div> -->
+          </div>
+          <!-- Main Panel ends here -->
+        </div>
+        <!-- DASHBOARD AREA ENDS HERE -->
+
+        <!-- ALL CLIENTS STARTS HERE -->
+      </div>
+    </section>
+  </body>
+</html>

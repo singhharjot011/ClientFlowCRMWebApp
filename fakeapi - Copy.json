@@ -1,0 +1,120 @@
+[
+  {
+    "clients": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "phone": "+1 123-456-7890",
+        "cases": [
+          {
+            "caseId": "C12345",
+            "status": "In Progress",
+            "type": "Work Visa",
+            "startDate": "2022-06-15",
+            "endDate": "2023-06-15"
+          },
+          {
+            "caseId": "C12346",
+            "status": "Approved",
+            "type": "Permanent Residency",
+            "startDate": "2021-03-10",
+            "endDate": null
+          }
+        ],
+        "appointments": [
+          {
+            "appointmentId": "A98765",
+            "date": "2022-12-01",
+            "time": "15:30",
+            "location": "123 Main St, City"
+          }
+        ],
+        "createdAt": "2021-01-05T08:45:00Z",
+        "isLead": false
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1 987-654-3210",
+        "cases": [
+          {
+            "caseId": "C67890",
+            "status": "Pending",
+            "type": "Student Visa",
+            "startDate": "2023-01-20",
+            "endDate": "2024-01-20"
+          }
+        ],
+        "appointments": [],
+        "createdAt": "2022-02-15T11:20:00Z",
+        "isLead": true
+      },
+      {
+        "id": 3,
+        "name": "Simi Doe",
+        "email": "Simi.doe@example.com",
+        "phone": "+1 123-456-7890",
+        "cases": [
+          {
+            "caseId": "C12345",
+            "status": "In Progress",
+            "type": "Work Visa",
+            "startDate": "2022-06-15",
+            "endDate": "2023-06-15"
+          },
+          {
+            "caseId": "C12346",
+            "status": "Approved",
+            "type": "Permanent Residency",
+            "startDate": "2021-03-10",
+            "endDate": null
+          }
+        ],
+        "appointments": [
+          {
+            "appointmentId": "A98765",
+            "date": "2022-12-01",
+            "time": "15:30",
+            "location": "123 Main St, City"
+          }
+        ],
+        "createdAt": "2021-01-05T08:45:00Z",
+        "isLead": false
+      },
+      {
+        "id": 4,
+        "name": "John Smith",
+        "email": "john.Smith@example.com",
+        "phone": "+1 123-456-7890",
+        "cases": [
+          {
+            "caseId": "C12345",
+            "status": "In Progress",
+            "type": "Work Visa",
+            "startDate": "2022-06-15",
+            "endDate": "2023-06-15"
+          },
+          {
+            "caseId": "C12346",
+            "status": "Approved",
+            "type": "Permanent Residency",
+            "startDate": "2021-03-10",
+            "endDate": null
+          }
+        ],
+        "appointments": [
+          {
+            "appointmentId": "A98765",
+            "date": "2022-12-01",
+            "time": "15:30",
+            "location": "123 Main St, City"
+          }
+        ],
+        "createdAt": "2021-01-05T08:45:00Z",
+        "isLead": false
+      }
+    ]
+  }
+]

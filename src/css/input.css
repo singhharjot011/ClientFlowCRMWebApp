@@ -1,0 +1,25 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+.side-panel {
+  height: 100dvh;
+}
+.side-panel img {
+  height: 30px;
+  cursor: pointer;
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+.hidden{
+  display: none;
+}
