@@ -3,6 +3,10 @@ class RenderTopPanel {
   #loginSection = document.querySelector(".login");
   #userInfoDD = document.querySelector(".user-info-dropdown");
 
+  constructor() {
+    this.triggerEventListeners();
+  }
+
   controlDropdown(e) {
     if (!e.target.closest("button")) return;
     if (e.target.classList.contains("btn-logout")) {

@@ -271,7 +271,6 @@ const init = function () {
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient();
-    renderTopPanel.triggerEventListeners();
     if (location.hash === "") location.hash = "dashboard";
   }
 };

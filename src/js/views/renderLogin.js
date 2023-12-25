@@ -3,7 +3,7 @@ import Views from "./views";
 class RenderLogin extends Views {
   _parentElement = document.querySelector(".login");
   _application = document.querySelector(".application");
-  _errorMessage = `Something Went Wrong, Please Try Again Later`;
+  _errorMessageText = document.querySelector(".error-message");
   _usernameTxtBox = document.getElementById("username");
   _passwordTxtBos = document.getElementById("password");
   _usernameValue;
@@ -54,10 +54,15 @@ class RenderLogin extends Views {
           .querySelector(".password-input").value;
         const result = await this.authentication(userCreds);
         if (result) {
+          this._parentElement.querySelector(".error-message").textContent = "";
           location.hash = "dashboard";
           this._parentElement.classList.add("hidden");
           this._application.classList.remove("hidden");
           localStorage.setItem("isLoggedIn", true);
+        }
+        if (!result) {
+          this._parentElement.querySelector(".error-message").textContent =
+            "Incorrect Username or Password. Please Try Again!";
         }
       }
     });
