@@ -2,8 +2,6 @@ class RenderTopPanel {
   #applicationSection = document.querySelector(".application");
   #loginSection = document.querySelector(".login");
   #userInfoDD = document.querySelector(".user-info-dropdown");
-  #btnUserInfoDD = document.querySelector(".btn-user-info-dropdown");
-  #isLoggedIn = true;
 
   controlDropdown(e) {
     if (!e.target.closest("button")) return;
@@ -12,8 +10,7 @@ class RenderTopPanel {
       this.#loginSection.classList.remove("hidden");
       this.#userInfoDD.classList.add("hidden");
       location.hash = "login";
-      this.#isLoggedIn = false;
-      location.reload();
+      localStorage.isLoggedIn = "false";
     }
 
     if (

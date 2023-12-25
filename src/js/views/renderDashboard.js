@@ -1,4 +1,3 @@
-import { all } from "micromatch";
 import Views from "./views";
 
 class RenderDashboard extends Views {

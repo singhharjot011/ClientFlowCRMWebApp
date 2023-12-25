@@ -1,13 +1,14 @@
 class RenderMenu {
   #menu = document.querySelector(".menu");
   #toggleBtn = document.querySelector(".toggle");
-  #dashboardTab = this.#menu.querySelector(".dashboard-tab");
   #initialHash = location.hash;
 
   constructor() {
     this.#menu.addEventListener("click", this.selectMenuItem.bind(this));
     this.#toggleBtn.addEventListener("click", this.toggleMenu.bind(this));
   }
+
+  
 
   // 1. Highlight Selected Tab
   selectMenuItem(e) {

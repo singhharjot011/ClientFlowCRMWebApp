@@ -16,7 +16,6 @@ import "regenerator-runtime/runtime"; //Polifilling async await
 const fetchData = async function () {
   try {
     const id = window.location.hash.slice(1);
-    if (!id) return;
 
     renderClients.renderSpinner();
     renderMenu.triggerEventListeners();
@@ -25,19 +24,21 @@ const fetchData = async function () {
 
     // id is not relevant for model at this point yet
 
-    await model.loadClients(id);
-
+    await model.loadClients();
     const { clients } = model.state;
 
-    await model.loadEmployees(id);
+    await model.loadEmployees();
     const { employees } = model.state;
 
-    await model.loadTasks(id);
+    await model.loadTasks();
     const { tasks } = model.state;
 
+    await model.loadUsers();
+    const { users } = model.state;
 
     // 2.) Rendering Main-Panel based on id
-    id === "login" && renderLogin.addHandlerLogin();
+
+    id === "login" && renderLogin.render(clients, employees, tasks, users);
     id === "dashboard" && renderDashboard.render(clients);
     id === "allClients" && renderClients.render(clients, employees);
     id === "myClients" && renderMyClients.render(clients, employees);
@@ -244,23 +245,34 @@ const saveDataInLocalStorage = () => {
         },
       ],
     },
+    {
+      users: [
+        { username: "user1", password: "password1", displayName: "User One" },
+        { username: "user2", password: "password2", displayName: "User Two" },
+      ],
+    },
   ];
   const myData = JSON.stringify(tempData);
-  localStorage.setItem("myData", myData);
+  if (!localStorage.myData) {
+    localStorage.setItem("myData", myData);
+  }
+
+  // Assuming isLoggedIn is initially false
+  if (!localStorage.isLoggedIn) localStorage.setItem("isLoggedIn", "false");
 };
 
 const init = function () {
   saveDataInLocalStorage();
 
-  // renderMenu.triggerEventListeners();
-  location.hash = "";
-  if (!renderLogin.addHandlerLogin(USERS)) {
+  if (localStorage.isLoggedIn === "false") {
     location.hash = "login";
+    renderLogin.addHandlerRender(fetchData);
   }
-  if (renderLogin.addHandlerLogin(USERS)) {
-    renderClients.addHandlerRender(fetchData);
+  if (localStorage.isLoggedIn === "true") {
+    renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient();
     renderTopPanel.triggerEventListeners();
+    if (location.hash === "") location.hash = "dashboard";
   }
 };
 init();

@@ -9,10 +9,6 @@ const timeout = function (s) {
 };
 
 const getLocalData = async function () {
-  // const localData = localStorage.getItem("myData");
-  // const result = JSON.parse(localData);
-  // return result;
-
   return new Promise(function (resolve, reject) {
     const localData = localStorage.getItem("myData");
     const result = JSON.parse(localData);
@@ -40,7 +36,6 @@ const getLocalData = async function () {
 export const getJSON = async function () {
   try {
     const data = await getLocalData();
-console.log(data);
     return data;
   } catch (err) {
     throw err;
