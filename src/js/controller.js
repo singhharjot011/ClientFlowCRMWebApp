@@ -9,9 +9,9 @@ import renderTasks from "./views/renderTasks.js";
 import renderCases from "./views/renderCases.js";
 import renderNewClient from "./views/renderNewClient.js";
 
-
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
+import renderTopPanel from "./views/renderTopPanel.js";
 
 const fetchData = async function () {
   try {
@@ -268,7 +268,7 @@ const saveDataInLocalStorage = () => {
 
 const controlAddClient = function (newClient) {
   console.log(newClient);
-  // model.createClientObject(newClient);
+  model.createClientObject(newClient);
 };
 
 const init = function () {
@@ -277,10 +277,14 @@ const init = function () {
   if (localStorage.isLoggedIn === "false") {
     location.hash = "login";
     renderLogin.addHandlerRender(fetchData);
+    renderNewClient.addHandlerCreateNewClient(controlAddClient);
+    renderTopPanel.triggerEventListeners();
   }
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
+    renderTopPanel.triggerEventListeners();
+
     if (location.hash === "") location.hash = "dashboard";
   }
 };

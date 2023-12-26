@@ -24,12 +24,15 @@ class RenderClients extends Views {
   }
 
   openAddNewClient() {
-    console.log("this jiii");
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
-      if (!e.target.closest("button")) return;
+      if (!e.target.closest("button") && !e.target.closest("a")) return;
       if (e.target.classList.contains("btn-add")) {
         location.hash = `addNewClient`;
+      }
+      if (e.target.closest("a")) {
+        location.hash =
+          `clientid?` + e.target.closest("a").getAttribute("href");
       }
     });
   }
@@ -66,7 +69,7 @@ class RenderClients extends Views {
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            ${client.id}
+            <a class="text-blue-500" href="#${client.id}">${client.id}</a>
           </th>
           <td class="px-6 py-4">${client.name}</td>
           <td class="px-6 py-4">${client.phone}</td>
@@ -74,7 +77,7 @@ class RenderClients extends Views {
           <td class="px-6 py-4">${this.returnDateString(client.createdAt)}</td>
 
           <td class="px-6 py-4">
-          ${client.cases[0].caseId}
+          ${client.cases[0]?.caseId ? client.cases[0].caseId : `N/A`}
           </td>
           <td class="px-6 py-4">
           ${

@@ -15,17 +15,11 @@ class RenderNewClient extends Views {
   _postalCodeValue;
   _noteValue;
 
-  constructor() {
-    super();
-    this.addHandlerCreateNewClient;
-  }
-
   getInputElement(e, className) {
     return e.target.closest("form").querySelector(`.${className}`).value;
   }
 
   addHandlerCreateNewClient(handler) {
-    console.log("this occurred");
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
       if (!e.target.closest("button")) return;
@@ -62,10 +56,10 @@ class RenderNewClient extends Views {
         };
         handler(clientObj);
 
-        // this.renderMessage(`New Client has been Added to the system`);
-        // setTimeout(function () {
-        //   location.hash = `allClients`;
-        // }, 2 * 1000);
+        this.renderMessage(`New Client has been Added to the system`);
+        setTimeout(function () {
+          location.hash = `allClients`;
+        }, 2 * 1000);
       }
       if (e.target.classList.contains("btn-clear")) {
         console.log("Clear");

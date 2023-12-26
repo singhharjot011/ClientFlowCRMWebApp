@@ -35,16 +35,15 @@ class RenderMyClients extends Views {
     </thead>
     <tbody>
       ${this._data
-        .map(
-          (client) =>
-            client.consultant === "E202" ?
-            `<tr
+        .map((client) =>
+          client.consultant === "E202"
+            ? `<tr
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
       ><th
           scope="row"
           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
         >
-          ${client.id}
+        <a class="text-blue-500" href="#${client.id}">${client.id}</a>
         </th>
         <td class="px-6 py-4">${client.name}</td>
         <td class="px-6 py-4">${client.phone}</td>
@@ -60,7 +59,8 @@ class RenderMyClients extends Views {
         } 
         </td>
         <td class="px-6 py-4">${this._employeeIdToName(client.consultant)}</td>
-      </tr>`:''
+      </tr>`
+            : ""
         )
         .join("")}
     </tbody>
