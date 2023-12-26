@@ -3,20 +3,69 @@ import Views from "./views";
 class RenderNewClient extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
+  _clientId;
+  _firstNameValue;
+  _lastNameValue;
+  _emailAddressValue;
+  _phoneValue;
+  _visaTypeValue;
+  _consultantValue;
+  _cityValue;
+  _provinceValue;
+  _postalCodeValue;
+  _noteValue;
 
-  addHandlerCreateNewClient() {
+  constructor() {
+    super();
+    this.addHandlerCreateNewClient;
+  }
+
+  getInputElement(e, className) {
+    return e.target.closest("form").querySelector(`.${className}`).value;
+  }
+
+  addHandlerCreateNewClient(handler) {
+    console.log("this occurred");
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
       if (!e.target.closest("button")) return;
-      if (e.target.classList.contains("btn-add")) {
-        location.hash = `addNewClient`;
-      }
       if (e.target.classList.contains("btn-save")) {
-        console.log("Save");
-        this.renderMessage(`New Client has been Added to the system`);
-        setTimeout(function () {
-          location.hash = `allClients`;
-        }, 2 * 1000);
+        this._clientId = `I${
+          +this._data
+            .map((i) => i.id)
+            .slice(-1)[0]
+            .slice(1) + 1
+        }`;
+        this._firstNameValue = this.getInputElement(e, `fname-input`);
+        this._lastNameValue = this.getInputElement(e, `lname-input`);
+        this._emailAddressValue = this.getInputElement(e, `email-input`);
+        this._phoneValue = this.getInputElement(e, `phone-input`);
+        this._visaTypeValue = this.getInputElement(e, `visa-input`);
+        this._consultantValue = this.getInputElement(e, `consultant-input`);
+        this._cityValue = this.getInputElement(e, `city-input`);
+        this._provinceValue = this.getInputElement(e, `province-input`);
+        this._postalCodeValue = this.getInputElement(e, `postal-code-input`);
+        this._noteValue = this.getInputElement(e, `note-input`);
+
+        const clientObj = {
+          id: this._clientId,
+          name: this._firstNameValue.trim() + " " + this._lastNameValue.trim(),
+          email: this._emailAddressValue,
+          phone: this._phoneValue,
+          createdBy: "E201",
+          createdAt: new Date().toISOString(),
+          consultant: "E201",
+          cases: [],
+          appointments: [],
+          clientNote: this._noteValue,
+          isLead: true,
+        };
+        handler(clientObj);
+
+        // this.renderMessage(`New Client has been Added to the system`);
+        // setTimeout(function () {
+        //   location.hash = `allClients`;
+        // }, 2 * 1000);
       }
       if (e.target.classList.contains("btn-clear")) {
         console.log("Clear");
@@ -77,7 +126,7 @@ class RenderNewClient extends Views {
           First Name
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="fname-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-first-name"
           type="text"
           placeholder="Jane"
@@ -91,7 +140,7 @@ class RenderNewClient extends Views {
           Last Name
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="lname-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-last-name"
           type="text"
           placeholder="Doe"
@@ -107,7 +156,7 @@ class RenderNewClient extends Views {
           Email Address
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="email-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-email"
           type="text"
           placeholder="janedoe@gmail.com"
@@ -121,7 +170,7 @@ class RenderNewClient extends Views {
           Phone
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="phone-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-phone"
           type="number"
           placeholder="905-999-9999"
@@ -139,7 +188,7 @@ class RenderNewClient extends Views {
         </label>
         <div class="relative">
           <select
-            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="visa-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-visa"
           >
             <option>Work Permit</option>
@@ -175,7 +224,7 @@ class RenderNewClient extends Views {
         </label>
         <div class="relative">
           <select
-            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="consultant-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-consultant"
           >
             <option>John B</option>
@@ -208,7 +257,7 @@ class RenderNewClient extends Views {
           City
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="city-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-city"
           type="text"
           placeholder="Toronto"
@@ -223,7 +272,7 @@ class RenderNewClient extends Views {
         </label>
         <div class="relative">
           <select
-            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="province-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-province"
           >
             <option>ON</option>
@@ -263,7 +312,7 @@ class RenderNewClient extends Views {
           Postal Code
         </label>
         <input
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="postal-code-input appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-postalcode"
           type="text"
           placeholder="L6P 0Z0"
@@ -279,7 +328,7 @@ class RenderNewClient extends Views {
       <textarea
         id="note"
         rows="4"
-        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        class="note-input block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Write your thoughts here..."
       ></textarea>
     </div>

@@ -7,6 +7,7 @@ export const state = {
   users: {},
 };
 
+const createClientObject = function (data) {};
 
 export const loadClients = async function (id) {
   try {
@@ -55,3 +56,5 @@ export const loadUsers = async function (id) {
     throw err;
   }
 };
+
+export const createNewClient = function () {};

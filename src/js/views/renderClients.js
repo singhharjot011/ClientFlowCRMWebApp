@@ -4,6 +4,11 @@ class RenderClients extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
+  constructor() {
+    super();
+    this.openAddNewClient();
+  }
+
   returnDateString(date) {
     const rawDate = new Date(date);
     const day = rawDate.getDate();
@@ -16,6 +21,17 @@ class RenderClients extends Views {
     ["hashchange", "load"].forEach((ev) =>
       window.addEventListener(ev, handler)
     );
+  }
+
+  openAddNewClient() {
+    console.log("this jiii");
+    this._parentElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!e.target.closest("button")) return;
+      if (e.target.classList.contains("btn-add")) {
+        location.hash = `addNewClient`;
+      }
+    });
   }
 
   _generateMarkup() {

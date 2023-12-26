@@ -8,7 +8,7 @@ import renderMenu from "./views/renderMenu.js";
 import renderTasks from "./views/renderTasks.js";
 import renderCases from "./views/renderCases.js";
 import renderNewClient from "./views/renderNewClient.js";
-import renderTopPanel from "./views/renderTopPanel.js";
+
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -44,7 +44,8 @@ const fetchData = async function () {
     id === "myClients" && renderMyClients.render(clients, employees);
     id === "tasks" && renderTasks.render(clients, employees, tasks);
     id === "cases" && renderCases.render(clients, employees);
-    id === "addNewClient" && renderNewClient.render();
+    id === "addNewClient" &&
+      renderNewClient.render(clients, employees, tasks, users);
   } catch (err) {
     renderClients.renderError();
     renderDashboard.renderError();
@@ -62,6 +63,7 @@ const saveDataInLocalStorage = () => {
           phone: "+1 123-456-7890",
           createdBy: "E201",
           createdAt: "2023-12-12T09:30:00Z",
+          clientNote: "",
           consultant: "E201",
           cases: [
             {
@@ -101,6 +103,7 @@ const saveDataInLocalStorage = () => {
           phone: "+1 987-654-3210",
           createdBy: "E204",
           createdAt: "2022-12-10T11:45:00Z",
+          clientNote: "",
           consultant: "E201",
           cases: [
             {
@@ -122,6 +125,7 @@ const saveDataInLocalStorage = () => {
           phone: "+1 905-456-7890",
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
+          clientNote: "",
           consultant: "E202",
           cases: [
             {
@@ -160,6 +164,7 @@ const saveDataInLocalStorage = () => {
           phone: "+1 905-456-7890",
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
+          clientNote: "",
           consultant: "E202",
           cases: [
             {
@@ -261,6 +266,11 @@ const saveDataInLocalStorage = () => {
   if (!localStorage.isLoggedIn) localStorage.setItem("isLoggedIn", "false");
 };
 
+const controlAddClient = function (newClient) {
+  console.log(newClient);
+  // model.createClientObject(newClient);
+};
+
 const init = function () {
   saveDataInLocalStorage();
 
@@ -270,7 +280,7 @@ const init = function () {
   }
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
-    renderNewClient.addHandlerCreateNewClient();
+    renderNewClient.addHandlerCreateNewClient(controlAddClient);
     if (location.hash === "") location.hash = "dashboard";
   }
 };
