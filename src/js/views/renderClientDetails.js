@@ -5,6 +5,14 @@ class RenderClientDetails extends Views {
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
   _generateMarkup() {
+    console.log(this._data);
+    console.log(location.hash.split("#")[2]);
+
+    const clientData = this._data.filter(
+      (c) => c.id === location.hash.split("#")[2]
+    );
+
+    console.log(clientData[0]);
     return `
     <div class="p-5">
       <form class="w-full max-w-lg shadow-lg p-4">
@@ -17,7 +25,7 @@ class RenderClientDetails extends Views {
             </label>
             <label
               class="block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
-              >I458</label
+              >${clientData[0].id}</label
             >
           </div>
           <button
@@ -56,12 +64,14 @@ class RenderClientDetails extends Views {
               id="grid-first-name"
               type="text"
               placeholder="Jane"
+              value=${clientData[0].name.split(" ")[0]}
             />
           </div>
           <div class="w-full md:w-1/2 px-3">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-last-name"
+              
             >
               Last Name
             </label>
@@ -70,6 +80,7 @@ class RenderClientDetails extends Views {
               id="grid-last-name"
               type="text"
               placeholder="Doe"
+              value=${clientData[0].name.split(" ")[1]}
             />
           </div>
         </div>
@@ -86,6 +97,7 @@ class RenderClientDetails extends Views {
               id="grid-email"
               type="text"
               placeholder="janedoe@gmail.com"
+              value=${clientData[0].email}
             />
           </div>
           <div class="w-full md:w-1/2 px-3">
@@ -100,6 +112,7 @@ class RenderClientDetails extends Views {
               id="grid-phone"
               type="number"
               placeholder="905-999-9999"
+              value="${clientData[0].phone?.split(" ")[1]?.split("-").join("")}"
             />
           </div>
         </div>
@@ -116,15 +129,33 @@ class RenderClientDetails extends Views {
               <select
                 class="visa-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-visa"
+                
               >
-                <option>Work Permit</option>
-                <option>Student Visa</option>
-                <option>Super Visa</option>
-                <option>Visitor Visa</option>
-                <option>Express Entry / PR</option>
-                <option>Family-Sponsorship</option>
-                <option>TRV</option>
-                <option>Others</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Work`) && `selected`
+                } >Work Permit</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Student`) && `selected`
+                }>Student Visa</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Super`) && `selected`
+                }>Super Visa</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Visitor`) && `selected`
+                }>Visitor Visa</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Express`) && `selected`
+                }>Express Entry / PR</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Family-Sponsorship`) &&
+                  `selected`
+                }>Family-Sponsorship</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`TRV`) && `selected`
+                }>TRV</option>
+                <option ${
+                  clientData[0].visaType.startsWith(`Others`) && `selected`
+                }>Others</option>
               </select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -153,9 +184,14 @@ class RenderClientDetails extends Views {
                 class="consultant-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-consultant"
               >
-                <option>John B</option>
-                <option>Tom C</option>
-                <option>Paul D</option>
+              ${this._employeeData.map(
+                (e) =>
+                  `<option ${
+                    e.employeeId === clientData[0].consultant && `selected`
+                  }>` +
+                  e.name +
+                  `</option>`
+              )}
               </select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -187,6 +223,7 @@ class RenderClientDetails extends Views {
               id="grid-city"
               type="text"
               placeholder="Toronto"
+              value="${clientData[0].city}"
             />
           </div>
           <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -201,19 +238,45 @@ class RenderClientDetails extends Views {
                 class="province-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-province"
               >
-                <option>ON</option>
-                <option>QC</option>
-                <option>NS</option>
-                <option>NB</option>
-                <option>MB</option>
-                <option>BC</option>
-                <option>PE</option>
-                <option>SK</option>
-                <option>AB</option>
-                <option>NL</option>
-                <option>NT (Territory)</option>
-                <option>YT (Territory)</option>
-                <option>NU (Territory)</option>
+                <option ${
+                  clientData[0].province === `ON` && `selected`
+                }>ON</option>
+                <option ${
+                  clientData[0].province === `QC` && `selected`
+                }>QC</option>
+                <option ${
+                  clientData[0].province === `NS` && `selected`
+                }>NS</option>
+                <option ${
+                  clientData[0].province === `NB` && `selected`
+                }>NB</option>
+                <option ${
+                  clientData[0].province === `MB` && `selected`
+                }>MB</option>
+                <option ${
+                  clientData[0].province === `BC` && `selected`
+                }>BC</option>
+                <option ${
+                  clientData[0].province === `PE` && `selected`
+                }>PE</option>
+                <option ${
+                  clientData[0].province === `SK` && `selected`
+                }>SK</option>
+                <option ${
+                  clientData[0].province === `AB` && `selected`
+                }>AB</option>
+                <option ${
+                  clientData[0].province === `NL` && `selected`
+                }>NL</option>
+                <option ${
+                  clientData[0].province.startsWith("NT") && `selected`
+                }>NT (Territory)</option>
+                <option ${
+                  clientData[0].province.startsWith("YT") && `selected`
+                }>YT (Territory)</option>
+                <option ${
+                  clientData[0].province.startsWith("NU") && `selected`
+                }>NU (Territory)</option>
               </select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -242,6 +305,7 @@ class RenderClientDetails extends Views {
               id="grid-postalcode"
               type="text"
               placeholder="L6P 0Z0"
+              value = "${clientData[0].postalCode}"
             />
           </div>
         </div>
@@ -275,3 +339,5 @@ class RenderClientDetails extends Views {
     `;
   }
 }
+
+export default new RenderClientDetails();

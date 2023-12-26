@@ -8,6 +8,7 @@ import renderMenu from "./views/renderMenu.js";
 import renderTasks from "./views/renderTasks.js";
 import renderCases from "./views/renderCases.js";
 import renderNewClient from "./views/renderNewClient.js";
+import renderClientDetails from "./views/renderClientDetails.js";
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -46,6 +47,8 @@ const fetchData = async function () {
     id === "cases" && renderCases.render(clients, employees);
     id === "addNewClient" &&
       renderNewClient.render(clients, employees, tasks, users);
+    id.startsWith("clientid?") &&
+      renderClientDetails.render(clients, employees, tasks, users);
   } catch (err) {
     renderClients.renderError();
     renderDashboard.renderError();
@@ -64,6 +67,10 @@ const saveDataInLocalStorage = () => {
           createdBy: "E201",
           createdAt: "2023-12-12T09:30:00Z",
           clientNote: "",
+          visaType: "Work Permit",
+          city: "Toronto",
+          province: "ON",
+          postalCode: "L6P 0P0",
           consultant: "E201",
           cases: [
             {
@@ -104,6 +111,10 @@ const saveDataInLocalStorage = () => {
           createdBy: "E204",
           createdAt: "2022-12-10T11:45:00Z",
           clientNote: "",
+          visaType: "Work Permit",
+          city: "Toronto",
+          province: "ON",
+          postalCode: "L6P 0P0",
           consultant: "E201",
           cases: [
             {
@@ -126,6 +137,10 @@ const saveDataInLocalStorage = () => {
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
           clientNote: "",
+          visaType: "Work Permit",
+          city: "Toronto",
+          province: "ON",
+          postalCode: "L6P 0P0",
           consultant: "E202",
           cases: [
             {
@@ -165,6 +180,10 @@ const saveDataInLocalStorage = () => {
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
           clientNote: "",
+          visaType: "Work Permit",
+          city: "Toronto",
+          province: "ON",
+          postalCode: "L6P 0P0",
           consultant: "E202",
           cases: [
             {

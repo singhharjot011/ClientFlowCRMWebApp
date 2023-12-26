@@ -48,7 +48,11 @@ class RenderNewClient extends Views {
           phone: this._phoneValue,
           createdBy: "E201",
           createdAt: new Date().toISOString(),
+          visaType: this._visaTypeValue,
           consultant: "E201",
+          city: this._cityValue,
+          province: this._provinceValue,
+          postalCode: this._postalCodeValue,
           cases: [],
           appointments: [],
           clientNote: this._noteValue,
@@ -73,6 +77,7 @@ class RenderNewClient extends Views {
   }
 
   _generateMarkup() {
+    console.log(this._employeeData);
     return `
 <div class="p-5">
   <form class="w-full max-w-lg shadow-lg p-4">
@@ -85,7 +90,7 @@ class RenderNewClient extends Views {
         </label>
         <label
           class="block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
-          >I458</label
+          >TBD</label
         >
       </div>
       <button
@@ -221,9 +226,9 @@ class RenderNewClient extends Views {
             class="consultant-input block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-consultant"
           >
-            <option>John B</option>
-            <option>Tom C</option>
-            <option>Paul D</option>
+
+          ${this._employeeData.map((e) => `<option>` + e.name + `</option>`)}
+           
           </select>
           <div
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
