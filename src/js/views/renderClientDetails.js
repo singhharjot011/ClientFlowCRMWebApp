@@ -5,14 +5,10 @@ class RenderClientDetails extends Views {
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
   _generateMarkup() {
-    console.log(this._data);
-    console.log(location.hash.split("#")[2]);
-
     const clientData = this._data.filter(
       (c) => c.id === location.hash.split("#")[2]
     );
 
-    console.log(clientData[0]);
     return `
     <div class="p-5">
       <form class="w-full max-w-lg shadow-lg p-4">

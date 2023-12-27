@@ -36,7 +36,7 @@ class RenderLogin extends Views {
     });
   }
 
-  addHandlerLogin(userCreds) {
+  addHandlerLogin(userCreds, setLogInStateFn) {
     this._parentElement.addEventListener("click", async (e) => {
       e.preventDefault();
       if (
@@ -48,7 +48,8 @@ class RenderLogin extends Views {
       if (e.target.matches(".btn-sign-in")) {
         this._usernameValue = e.target
           .closest("form")
-          .querySelector(".username-input").value;
+          .querySelector(".username-input")
+          .value.toLowerCase();
         this._passwordValue = e.target
           .closest("form")
           .querySelector(".password-input").value;
@@ -59,6 +60,7 @@ class RenderLogin extends Views {
           this._parentElement.classList.add("hidden");
           this._application.classList.remove("hidden");
           localStorage.setItem("isLoggedIn", true);
+          setLogInStateFn(this._usernameValue);
         }
         if (!result) {
           this._parentElement.querySelector(".error-message").textContent =

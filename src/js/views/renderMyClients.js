@@ -11,9 +11,13 @@ class RenderMyClients extends Views {
   }
   _filterClients() {
     const allCases = this._data.map((i) => i.cases).flat();
-    console.log(allCases.map((i) => i.assignedTo));
-    console.log(allCases);
     this._data.filter((el) => el.map((i) => i.cases).flat());
+  }
+
+  _loggedInConsultant() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    console.log(loggedInUser);
+    return loggedInUser[0].employeeId;
   }
 
   _generateMarkup() {
@@ -36,7 +40,7 @@ class RenderMyClients extends Views {
     <tbody>
       ${this._data
         .map((client) =>
-          client.consultant === "E202"
+          client.consultant === `${this._loggedInConsultant()}`
             ? `<tr
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
       ><th

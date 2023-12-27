@@ -38,11 +38,14 @@ const fetchData = async function () {
     const { users } = model.state;
 
     // 2.) Rendering Main-Panel based on id
-
-    id === "login" && renderLogin.render(clients, employees, tasks, users);
+    renderTopPanel.render(clients, employees, tasks, users);
+    id === "login" &&
+      (renderLogin.render(clients, employees, tasks, users),
+      renderLogin.addHandlerLogin(users, setUserLoggedIn));
     id === "dashboard" && renderDashboard.render(clients);
     id === "allClients" && renderClients.render(clients, employees);
-    id === "myClients" && renderMyClients.render(clients, employees);
+    id === "myClients" &&
+      renderMyClients.render(clients, employees, tasks, users);
     id === "tasks" && renderTasks.render(clients, employees, tasks);
     id === "cases" && renderCases.render(clients, employees);
     id === "addNewClient" &&
@@ -221,7 +224,7 @@ const saveDataInLocalStorage = () => {
       employees: [
         {
           employeeId: "E201",
-          name: "John Manager",
+          name: "Shawna Stewart",
           position: "Manager",
         },
         {
@@ -231,12 +234,12 @@ const saveDataInLocalStorage = () => {
         },
         {
           employeeId: "E203",
-          name: "Bob Consultant",
+          name: "Bob Gonsalves",
           position: "Consultant",
         },
         {
           employeeId: "E204",
-          name: "Emma Consultant",
+          name: "Emma Schneider",
           position: "Consultant",
         },
       ],
@@ -271,8 +274,38 @@ const saveDataInLocalStorage = () => {
     },
     {
       users: [
-        { username: "user1", password: "password1", displayName: "User One" },
-        { username: "user2", password: "password2", displayName: "User Two" },
+        {
+          username: "ss",
+          password: "passwordss",
+          displayName: "Shawna Stewart",
+          employeeId: "E201",
+          position: "manager",
+          userLoggedIn: "false",
+        },
+        {
+          username: "al",
+          password: "passwordal",
+          displayName: "Anisha Lee",
+          employeeId: "E202",
+          position: "assistant manager",
+          userLoggedIn: "false",
+        },
+        {
+          username: "bg",
+          password: "passwordbg",
+          displayName: "Bob Gonsalves",
+          employeeId: "E203",
+          position: "consultant",
+          userLoggedIn: "false",
+        },
+        {
+          username: "es",
+          password: "passwordes",
+          displayName: "Emma Schneider",
+          employeeId: "E204",
+          position: "consultant",
+          userLoggedIn: "false",
+        },
       ],
     },
   ];
@@ -286,13 +319,19 @@ const saveDataInLocalStorage = () => {
 };
 
 const controlAddClient = function (newClient) {
-  console.log(newClient);
   model.createClientObject(newClient);
+};
+
+const setUserLoggedIn = function (username = "", logOutFlag) {
+  model.state.users.map((u) =>
+    u.username === username ? (u.userLoggedIn = true) : (u.userLoggedIn = false)
+  );
+  if (logOutFlag) model.state.users.map((u) => u.userLoggedIn === false);
+  model.addToLocalStorage();
 };
 
 const init = function () {
   saveDataInLocalStorage();
-
   if (localStorage.isLoggedIn === "false") {
     location.hash = "login";
     renderLogin.addHandlerRender(fetchData);
@@ -302,6 +341,7 @@ const init = function () {
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
+    renderTopPanel.addHandlerRender(fetchData);
     renderTopPanel.triggerEventListeners();
 
     if (location.hash === "") location.hash = "dashboard";

@@ -3,7 +3,6 @@ export default class Views {
   _application = document.querySelector(".application");
 
   render(data, employeeData, taskData, usersData) {
-    if (this._parentElement.matches(".login")) this.addHandlerLogin(usersData);
     if (this._parentElement.matches(".main-panel"))
       this._application.classList.remove("hidden");
     this._data = data;

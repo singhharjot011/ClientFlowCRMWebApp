@@ -7,7 +7,7 @@ export const state = {
   users: {},
 };
 
-const addToLocalStorage = function () {
+export const addToLocalStorage = function () {
   const myDataArray = [
     { clients: state.clients },
     { employees: state.employees },
@@ -18,18 +18,13 @@ const addToLocalStorage = function () {
 };
 
 export const createClientObject = function (data) {
-  console.log(data);
-  console.log(state);
   state.clients.push(data);
-  console.log(state);
-  // console.log(state);
   addToLocalStorage();
 };
 
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);
-    console.log(data);
     const { clients } = data[0];
     state.clients = clients;
   } catch (err) {
@@ -74,5 +69,3 @@ export const loadUsers = async function (id) {
     throw err;
   }
 };
-
-export const createNewClient = function () {};
