@@ -4,11 +4,6 @@ class RenderMyClients extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
-  addHandlerRender(handler) {
-    ["hashchange", "load"].forEach((ev) => {
-      window.addEventListener(ev, handler);
-    });
-  }
   _filterClients() {
     const allCases = this._data.map((i) => i.cases).flat();
     this._data.filter((el) => el.map((i) => i.cases).flat());
@@ -16,7 +11,6 @@ class RenderMyClients extends Views {
 
   _loggedInConsultant() {
     const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
-    console.log(loggedInUser);
     return loggedInUser[0].employeeId;
   }
 
@@ -53,7 +47,7 @@ class RenderMyClients extends Views {
         <td class="px-6 py-4">${client.phone}</td>
         <td class="px-6 py-4">${client.email}</td>
         <td class="px-6 py-4">
-        ${client.cases[0].caseId}
+        ${client.cases[0]?.caseId || "N/A"}
         </td>
         <td class="px-6 py-4">
         ${

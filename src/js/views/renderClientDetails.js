@@ -3,7 +3,7 @@ import Views from "./views";
 class RenderClientDetails extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
-
+  _tempHash;
   _generateMarkup() {
     const clientData = this._data.filter(
       (c) => c.id === location.hash.split("#")[2]

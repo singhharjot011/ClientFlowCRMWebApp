@@ -1,3 +1,4 @@
+import { log } from "util";
 import Views from "./views";
 
 class RenderNewClient extends Views {
@@ -14,12 +15,25 @@ class RenderNewClient extends Views {
   _provinceValue;
   _postalCodeValue;
   _noteValue;
+  _tempHash;
+
 
   getInputElement(e, className) {
     return e.target.closest("form").querySelector(`.${className}`).value;
   }
 
+  getCreatedById() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    return loggedInUser[0].employeeId;
+  }
+
+  getConsultantId(empName) {
+    const consultant = this._employeeData.filter((u) => u.name === empName);
+    return consultant[0].employeeId;
+  }
+
   addHandlerCreateNewClient(handler) {
+    this._tempHash = location.hash;
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
       if (!e.target.closest("button")) return;
@@ -46,10 +60,10 @@ class RenderNewClient extends Views {
           name: this._firstNameValue.trim() + " " + this._lastNameValue.trim(),
           email: this._emailAddressValue,
           phone: this._phoneValue,
-          createdBy: "E201",
+          createdBy: this.getCreatedById(),
           createdAt: new Date().toISOString(),
           visaType: this._visaTypeValue,
-          consultant: "E201",
+          consultant: this.getConsultantId(this._consultantValue),
           city: this._cityValue,
           province: this._provinceValue,
           postalCode: this._postalCodeValue,
@@ -71,7 +85,7 @@ class RenderNewClient extends Views {
         this._parentElement.getElementsByTagName("form")[0].reset();
       }
       if (e.target.closest("button").classList.contains("btn-close")) {
-        location.hash = `allClients`;
+        location.hash = this._tempHash;
       }
     });
   }
