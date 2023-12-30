@@ -10,6 +10,7 @@ import renderCases from "./views/renderCases.js";
 import renderNewClient from "./views/renderNewClient.js";
 import renderClientDetails from "./views/renderClientDetails.js";
 import renderCaseDetails from "./views/renderCaseDetails.js";
+import renderNewCase from "./views/renderNewCase.js";
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -51,6 +52,8 @@ const fetchData = async function () {
     id === "cases" && renderCases.render(clients, employees);
     id === "addNewClient" &&
       renderNewClient.render(clients, employees, tasks, users);
+    id === "createNewCase" &&
+      renderNewCase.render(clients, employees, tasks, users);
     id.startsWith("clientid?") &&
       renderClientDetails.render(clients, employees, tasks, users);
     id.startsWith("caseid?") &&
@@ -330,6 +333,10 @@ const saveDataInLocalStorage = () => {
 
 const controlAddClient = function (newClient) {
   model.createClientObject(newClient);
+};
+
+const controlCreateCase = function (newCase, clientId) {
+  model.createCase(newCase, clientId);
 };
 
 const setUserLoggedIn = function (username = "", logOutFlag) {

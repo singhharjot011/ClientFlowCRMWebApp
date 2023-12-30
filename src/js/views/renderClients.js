@@ -47,7 +47,7 @@ class RenderClients extends Views {
     return `<div class="flex flex-col w-full h-full">
     <div class=" flex w-full justify-end px-5 pt-5">
       <button class="btn-add bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
-    + Add
+    + Add New Client
   </button>
       </div><div class="overflow-x-auto shadow-md sm:rounded-lg p-5">
       <table

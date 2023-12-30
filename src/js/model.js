@@ -22,6 +22,12 @@ export const createClientObject = function (data) {
   addToLocalStorage();
 };
 
+export const createCase = function (caseData, clientId) {
+  const curClient = state.clients.filter((c) => c.id === clientId);
+  curClient[0].cases.push(caseData);
+  addToLocalStorage();
+};
+
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);

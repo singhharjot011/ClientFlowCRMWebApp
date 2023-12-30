@@ -1,28 +1,71 @@
 import Views from "./views";
 
-class RenderCaseDetails extends Views {
+class RenderNewCase extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
-  _textArea = this._parentElement.getElementsByTagName("textarea");
+  clientSearchField;
+  clientList;
+  allClients;
+  curClient;
 
-  _filterCases() {
-    const allCases = this._data.map((i) => i.cases).flat();
-    return allCases;
+  constructor() {
+    super();
+
+    this.addHandlerSearch();
   }
 
-  addHandlerRender(handler) {
-    ["hashchange", "load"].forEach((ev) => {
-      window.addEventListener(ev, handler);
+  createClientList() {
+    // Clear existing options
+    this.clientList.innerHTML = "";
+    for (const c in this.allClients) {
+      const optionElement = document.createElement("option");
+      optionElement.value = this.allClients[c];
+      this.clientList.appendChild(optionElement);
+    }
+  }
+
+  getClientDetails(clientName) {
+    if (!this._data.map((c) => c.name).includes(clientName)) return;
+    console.log(clientName);
+    console.log(this._data.filter((c) => c.name === clientName));
+    return this._data.filter((c) => c.name === clientName);
+  }
+
+  addHandlerSearch() {
+    this._parentElement?.addEventListener("keyup", (e) => {
+      if (!e.target.classList.contains("client-search-class")) return;
+      if (e.target.classList.contains("client-search-class")) {
+        this.clientSearchField = e.target;
+        this.curClient = this.getClientDetails(this.clientSearchField.value);
+        this.clientList = e.target
+          .closest("div")
+          .querySelector(".client-list-class");
+        if (this.curClient) {
+          this.clientSearchField
+            .closest("form")
+            .querySelector(".client-email").textContent =
+            this.curClient[0].email;
+          this.clientSearchField
+            .closest("form")
+            .querySelector(".client-phone").textContent =
+            this.formatPhoneNumber(this.curClient[0].phone);
+          this.clientSearchField
+            .closest("form")
+            .querySelector(
+              ".client-search-div"
+            ).innerHTML = `<label id="current-client">${this.curClient[0].name} </label>`;
+        }
+      }
+      this.createClientList();
+    });
+
+    this.clientList?.addEventListener("click", (e) => {
+      console.log("this jiii");
     });
   }
 
   _generateMarkup() {
-    const caseData = this._filterCases().filter(
-      (c) => c.caseId.toLowerCase() === location.hash.split("#")[2]
-    );
-    console.log(caseData[0]);
-    const clientData = this._data.filter((c) => c.id === caseData[0].clientId);
-    console.log(clientData);
+    this.allClients = this._data.map((c) => c.name);
 
     return `<div class="p-5 flex">
     <form class="w-full max-w-lg shadow-lg p-4">
@@ -35,7 +78,7 @@ class RenderCaseDetails extends Views {
           </label>
           <label
             class="block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
-            >${caseData[0].caseId}</label
+            >TBD</label
           >
         </div>
         <button
@@ -61,18 +104,25 @@ class RenderCaseDetails extends Views {
           </svg>
         </button>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-6 space-y-2">
         <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">
           <label
+          for="client-search"
             class="block uppercase text-xs tracking-wide text-gray-700 font-bold "
           >
-            Client Name
+            Client Name or Client ID
           </label>
-          <label
-          class="block text-gray-700"
-        >
-          ${clientData[0].name}
-        </label>
+        <div class="relative client-search-div">          
+            <input class="shadow-sm text-gray-700 me-6 rounded px-2 client-search-class"
+                id="client-search"
+                placeholder="Search Name or ClientID"
+                list="client-list"
+                autocomplete="off"
+                >
+                <img src="${require(`../../img/search.png`)}" class="h-5 absolute right-0 top-1"></img>
+            </input>
+            <datalist class="client-list-class" id="client-list"></datalist>
+        </div>
         </div>
         <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">
           <label
@@ -81,9 +131,9 @@ class RenderCaseDetails extends Views {
             Email Address
           </label>
           <label
-          class="block text-gray-700"
+          class="block text-gray-700 client-email"
         >
-        ${clientData[0].email}
+        
         </label>
         </div>
         <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">
@@ -93,9 +143,9 @@ class RenderCaseDetails extends Views {
             Phone
           </label>
           <label
-          class="block text-gray-700"
+          class="block text-gray-700 client-phone"
         >
-        ${this.formatPhoneNumber(clientData[0].phone)}
+        
         </label>
         </div>
       </div>
@@ -105,39 +155,20 @@ class RenderCaseDetails extends Views {
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-visa"
+            for="grid-case"
           >
-            Visa Type
+            Case Type
           </label>
           <div class="relative">
             <select
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-visa"
+              id="grid-case"
             >
-              <option ${
-                caseData[0].type.startsWith("Work") && `selected`
-              }>Work Permit</option>
-              <option ${
-                caseData[0].type.startsWith("Student") && `selected`
-              }>Student Visa</option>
-              <option ${
-                caseData[0].type.startsWith("Super") && `selected`
-              }>Super Visa</option>
-              <option ${
-                caseData[0].type.startsWith("Vistor") && `selected`
-              }>Visitor Visa</option>
-              <option ${
-                caseData[0].type.startsWith("Express") && `selected`
-              }>Express Entry / PR</option>
-              <option ${
-                caseData[0].type.startsWith("Family") && `selected`
-              }>Family-Sponsorship</option>
-              <option ${
-                caseData[0].type.startsWith("TRV") && `selected`
-              }>TRV</option>
-              <option ${
-                caseData[0].type.startsWith("Other") && `selected`
-              }>Others</option>
+              <option >General Inquiry</option>
+              <option >Callback Request</option>
+              <option >Update Request</option>
+              <option >Payment Related</option>
+              <option >Others</option>
             </select>
             <div
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -166,30 +197,13 @@ class RenderCaseDetails extends Views {
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-status"
             >
-              <option ${
-                caseData[0].type.startsWith("Pending") && `selected`
-              }>Pending</option>
-              <option ${
-                caseData[0].type.startsWith("Under") && `selected`
-              }>Under Review</option>
-              <option ${
-                caseData[0].type.startsWith("Approved") && `selected`
-              }>Approved</option>
-              <option ${
-                caseData[0].type.startsWith("Denied") && `selected`
-              }>Denied</option>
-              <option ${
-                caseData[0].type.startsWith("Processing") && `selected`
-              }>Processing</option>
-              <option ${
-                caseData[0].type.startsWith("Issued") && `selected`
-              }>Issued</option>
-              <option ${
-                caseData[0].type.startsWith("Expired") && `selected`
-              }>Expired</option>
-              <option ${
-                caseData[0].type.startsWith("Cancelled") && `selected`
-              }>Cancelled/Revoked</option>
+              <option >In Progress</option>
+              <option >Pending</option>
+              <option >Under Review</option>
+              <option >Completed</option>
+              <option >Referred</option>              
+              <option>Cancelled</option>
+              <option >Closed</option>
             </select>
             <div
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -218,14 +232,7 @@ class RenderCaseDetails extends Views {
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-consultant"
             >
-            ${this._employeeData.map(
-              (e) =>
-                `<option ${
-                  e.employeeId === caseData[0].assignedTo && `selected`
-                }>` +
-                e.name +
-                `</option>`
-            )}
+            ${this._employeeData.map((e) => `<option>` + e.name + `</option>`)}
             </select>
             <div
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -260,25 +267,21 @@ class RenderCaseDetails extends Views {
       </div>
       <div class="flex w-full space-x-3 justify-start">
         <button
-          class="bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+          class="btn-save-case bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
         >
           Save
         </button>
         <button
-        id="clear-button"
+        id="clear-case-button"
           class="bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
         >
           Clear
         </button>
       </div>
     </form>
-    <div class="flex flex-col shadow-lg">
-    <span class="font-bold text-sm">Anisha Lee</span>
-    <span class="font-bold text-sm">${new Date()}</span>
-    <p>Client called to get an update reagrding his Visa</p>
-    </div>
+
   </div>`;
   }
 }
 
-export default new RenderCaseDetails();
+export default new RenderNewCase();

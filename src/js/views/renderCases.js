@@ -6,6 +6,11 @@ class RenderCases extends Views {
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
   _textArea = this._parentElement.getElementsByTagName("textarea");
 
+  constructor() {
+    super();
+    this.openCreateNewCase();
+  }
+
   _filterCases() {
     const allCases = this._data.map((i) => i.cases).flat();
     return allCases;
@@ -17,14 +22,31 @@ class RenderCases extends Views {
     });
   }
 
+  openCreateNewCase() {
+    this._parentElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!e.target.closest("button") && !e.target.closest("a")) return;
+      if (e.target.classList.contains("btn-create-case")) {
+        localStorage.setItem("lastHash", location.hash);
+        location.hash = `createNewCase`;
+      }
+    });
+  }
+
   _generateMarkup() {
-    return `<div class="overflow-x-auto shadow-md sm:rounded-lg p-5">
+    return `<div class="flex flex-col w-full h-full">
+    <div class=" flex w-full justify-end px-5 pt-5">
+      <button class="btn-create-case bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
+    + Create New Case
+  </button>
+      </div>
+      <div class="overflow-x-auto shadow-md sm:rounded-lg p-5">
         <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          class=" bg-gray-50 dark:bg-zink-50 dark:text-zink-200 ">
           <tr>
-            <th scope="col" class="px-6 py-3">Case ID</th>
+            <th scope="col" class="px-6 py-3">Case ID #</th>
             <th scope="col" class="px-6 py-3">Type</th>
             <th scope="col" class="px-6 py-3">Status</th>
             <th scope="col" class="px-6 py-3">Case Created</th>
@@ -49,7 +71,27 @@ class RenderCases extends Views {
               }</a>
             </th>
             <td class="px-6 py-4">${caseItem.type}</td>
-            <td class="px-6 py-4">${caseItem.status}</td>
+            <td class=" ${
+              caseItem.status.toLowerCase() === "pending"
+                ? "bg-yellow-500"
+                : caseItem.status.toLowerCase() === "approved"
+                ? "bg-green-500"
+                : caseItem.status.toLowerCase() === "under review"
+                ? "bg-blue-500"
+                : caseItem.status.toLowerCase() === "denied"
+                ? "bg-red-500"
+                : caseItem.status.toLowerCase() === "processing"
+                ? "bg-purple-500"
+                : caseItem.status.toLowerCase() === "issued"
+                ? "bg-green-500"
+                : caseItem.status.toLowerCase() === "expired"
+                ? "bg-gray-500"
+                : caseItem.status.toLowerCase() === "cancelled/revoked"
+                ? "bg-red-500"
+                : ""
+            } bg-red-500 rounded px-1 text-[10px] text-white inline font-normal">${
+                caseItem.status
+              }</td>
             <td class="px-6 py-4">${caseItem.startDate}</td>
             <td class="px-6 py-4">
             ${caseItem.endDate}
@@ -62,6 +104,7 @@ class RenderCases extends Views {
             .join("")}
         </tbody>
         </table>
+        </div>
         </div>`;
   }
 }
