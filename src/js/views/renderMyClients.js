@@ -41,13 +41,17 @@ class RenderMyClients extends Views {
           scope="row"
           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
         >
-        <a class="text-blue-500" href="#${client.id}">${client.id}</a>
+        <a class="text-blue-500 client-anchor" href="#${client.id}">${
+                client.id
+              }</a>
         </th>
         <td class="px-6 py-4">${client.name}</td>
-        <td class="px-6 py-4">${client.phone}</td>
+        <td class="px-6 py-4">${this.formatPhoneNumber(client.phone)}</td>
         <td class="px-6 py-4">${client.email}</td>
         <td class="px-6 py-4">
-        ${client.cases[0]?.caseId || "N/A"}
+        ${
+          client.cases[0] ? client.cases[client.cases.length - 1].caseId : "N/A"
+        }
         </td>
         <td class="px-6 py-4">
         ${

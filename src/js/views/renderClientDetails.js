@@ -108,7 +108,7 @@ class RenderClientDetails extends Views {
               id="grid-phone"
               type="number"
               placeholder="905-999-9999"
-              value="${clientData[0].phone?.split(" ")[1]?.split("-").join("")}"
+              value="${clientData[0].phone}"
             />
           </div>
         </div>
@@ -315,7 +315,7 @@ class RenderClientDetails extends Views {
             id="note"
             rows="4"
             class="note-input block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write your thoughts here..."
+            placeholder="Comments..."
           ></textarea>
         </div>
         <div class="flex w-full space-x-3 justify-start">

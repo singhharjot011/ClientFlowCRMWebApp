@@ -9,6 +9,7 @@ import renderTasks from "./views/renderTasks.js";
 import renderCases from "./views/renderCases.js";
 import renderNewClient from "./views/renderNewClient.js";
 import renderClientDetails from "./views/renderClientDetails.js";
+import renderCaseDetails from "./views/renderCaseDetails.js";
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -52,6 +53,8 @@ const fetchData = async function () {
       renderNewClient.render(clients, employees, tasks, users);
     id.startsWith("clientid?") &&
       renderClientDetails.render(clients, employees, tasks, users);
+    id.startsWith("caseid?") &&
+      renderCaseDetails.render(clients, employees, tasks, users);
   } catch (err) {
     renderClients.renderError();
     renderDashboard.renderError();
@@ -66,14 +69,14 @@ const saveDataInLocalStorage = () => {
           id: "I101",
           name: "John Doe",
           email: "john.doe@example.com",
-          phone: "+1 123-456-7890",
+          phone: "234567890",
           createdBy: "E201",
           createdAt: "2023-12-12T09:30:00Z",
           clientNote: "",
           visaType: "Work Permit",
           city: "Toronto",
           province: "ON",
-          postalCode: "L6P 0P0",
+          postalCode: "L6P0P0",
           consultant: "E201",
           cases: [
             {
@@ -83,6 +86,7 @@ const saveDataInLocalStorage = () => {
               startDate: "2022-06-15",
               endDate: "2023-06-15",
               assignedTo: "E201",
+              clientId: "I101",
             },
             {
               caseId: "C12346",
@@ -91,6 +95,7 @@ const saveDataInLocalStorage = () => {
               startDate: "2021-03-10",
               endDate: null,
               assignedTo: "E202",
+              clientId: "I101",
             },
           ],
           appointments: [
@@ -110,14 +115,14 @@ const saveDataInLocalStorage = () => {
           id: "I102",
           name: "Jane Smith",
           email: "jane.smith@example.com",
-          phone: "+1 987-654-3210",
+          phone: "9876543210",
           createdBy: "E204",
           createdAt: "2022-12-10T11:45:00Z",
           clientNote: "",
           visaType: "Work Permit",
           city: "Toronto",
           province: "ON",
-          postalCode: "L6P 0P0",
+          postalCode: "L6P0P0",
           consultant: "E201",
           cases: [
             {
@@ -127,6 +132,7 @@ const saveDataInLocalStorage = () => {
               startDate: "2023-01-20",
               endDate: "2024-01-20",
               assignedTo: "E204",
+              clientId: "I102",
             },
           ],
           appointments: [],
@@ -136,31 +142,33 @@ const saveDataInLocalStorage = () => {
           id: "I103",
           name: "John B",
           email: "john.B@example.com",
-          phone: "+1 905-456-7890",
+          phone: "9054567890",
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
           clientNote: "",
           visaType: "Work Permit",
           city: "Toronto",
           province: "ON",
-          postalCode: "L6P 0P0",
+          postalCode: "L6P0P0",
           consultant: "E202",
           cases: [
             {
-              caseId: "C12346",
+              caseId: "C12347",
               status: "Approved",
               type: "Work Visa",
               startDate: "2022-06-15",
               endDate: "2023-06-15",
               assignedTo: "E203",
+              clientId: "I103",
             },
             {
-              caseId: "C12347",
+              caseId: "C12348",
               status: "Approved",
               type: "Permanent Residency",
               startDate: "2021-03-10",
               endDate: null,
               assignedTo: "E202",
+              clientId: "I103",
             },
           ],
           appointments: [
@@ -179,31 +187,33 @@ const saveDataInLocalStorage = () => {
           id: "I104",
           name: "Pelu B",
           email: "john.B@example.com",
-          phone: "+1 905-456-7890",
+          phone: "9054567890",
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
           clientNote: "",
-          visaType: "Work Permit",
+          visaType: "Student Visa",
           city: "Toronto",
           province: "ON",
-          postalCode: "L6P 0P0",
+          postalCode: "L6P0P0",
           consultant: "E202",
           cases: [
             {
-              caseId: "C12346",
+              caseId: "C12349",
               status: "Approved",
               type: "Work Visa",
               startDate: "2022-06-15",
               endDate: "2023-06-15",
               assignedTo: "E203",
+              clientId: "I104",
             },
             {
-              caseId: "C12347",
+              caseId: "C12357",
               status: "Approved",
               type: "Permanent Residency",
               startDate: "2021-03-10",
               endDate: null,
               assignedTo: "E202",
+              clientId: "I104",
             },
           ],
           appointments: [

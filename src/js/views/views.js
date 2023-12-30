@@ -20,6 +20,16 @@ export default class Views {
     this._parentElement.innerHTML = "";
   }
 
+  formatPhoneNumber(phone) {
+    const formattedPhone = [
+      ...phone.slice(0, 3),
+      "-",
+      ...phone.slice(3, 6),
+      "-",
+      ...phone.slice(6),
+    ].join("");
+    return formattedPhone;
+  }
   renderSpinner(parentEl) {
     const markup = `
         <div class="flex  h-96 justify-center items-center" role="status">
