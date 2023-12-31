@@ -22,8 +22,10 @@ export const createClientObject = function (data) {
   addToLocalStorage();
 };
 
-export const createCase = function (caseData, clientId) {
-  const curClient = state.clients.filter((c) => c.id === clientId);
+export const createCase = function (caseData) {
+  console.log(caseData);
+  const curClient = state.clients.filter((c) => c.id === caseData.clientId);
+  console.log(curClient);
   curClient[0].cases.push(caseData);
   addToLocalStorage();
 };

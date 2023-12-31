@@ -9,13 +9,7 @@ class RenderClients extends Views {
     this.openAddNewClient();
   }
 
-  returnDateString(date) {
-    const rawDate = new Date(date);
-    const day = rawDate.getDate();
-    const month = rawDate.getMonth();
-    const year = rawDate.getFullYear();
-    return `${month + 1}/${day}/${year}`;
-  }
+
 
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) =>

@@ -11,11 +11,6 @@ class RenderCases extends Views {
     this.openCreateNewCase();
   }
 
-  _filterCases() {
-    const allCases = this._data.map((i) => i.cases).flat();
-    return allCases;
-  }
-
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) => {
       window.addEventListener(ev, handler);
@@ -47,10 +42,11 @@ class RenderCases extends Views {
           class=" bg-gray-50 dark:bg-zink-50 dark:text-zink-200 ">
           <tr>
             <th scope="col" class="px-6 py-3">Case ID #</th>
+            <th scope="col" class="px-6 py-3">Client</th>
+            <th scope="col" class="px-6 py-3">Description</th>
             <th scope="col" class="px-6 py-3">Type</th>
             <th scope="col" class="px-6 py-3">Status</th>
             <th scope="col" class="px-6 py-3">Case Created</th>
-            <th scope="col" class="px-6 py-3">Last Updated</th>
             <th scope="col" class="px-6 py-3">Assigned To</th>
             <th scope="col" class="px-6 py-3">
               <span class="sr-only">Edit</span>
@@ -70,32 +66,36 @@ class RenderCases extends Views {
                 caseItem.caseId
               }</a>
             </th>
-            <td class="px-6 py-4">${caseItem.type}</td>
+            <td class="px-6 py-4">${this._clientIdToName(
+              caseItem.clientId
+            )}</td>
+            <td class="px-6 py-4">${caseItem.caseDescription}</td>
+            <td class="px-6 py-4">${caseItem.caseType}</td>
             <td class=" ${
-              caseItem.status.toLowerCase() === "pending"
+              caseItem.caseStatus.toLowerCase() === "pending"
                 ? "bg-yellow-500"
-                : caseItem.status.toLowerCase() === "approved"
+                : caseItem.caseStatus.toLowerCase() === "completed"
                 ? "bg-green-500"
-                : caseItem.status.toLowerCase() === "under review"
+                : caseItem.caseStatus.toLowerCase() === "under review"
                 ? "bg-blue-500"
-                : caseItem.status.toLowerCase() === "denied"
+                : caseItem.caseStatus.toLowerCase() === "cancelled"
                 ? "bg-red-500"
-                : caseItem.status.toLowerCase() === "processing"
+                : caseItem.caseStatus.toLowerCase() === "in progress"
                 ? "bg-purple-500"
-                : caseItem.status.toLowerCase() === "issued"
+                : caseItem.caseStatus.toLowerCase() === "issued"
                 ? "bg-green-500"
-                : caseItem.status.toLowerCase() === "expired"
+                : caseItem.caseStatus.toLowerCase() === "closed"
                 ? "bg-gray-500"
-                : caseItem.status.toLowerCase() === "cancelled/revoked"
-                ? "bg-red-500"
+                : caseItem.caseStatus.toLowerCase() === "referred"
+                ? "bg-yellow-500"
                 : ""
             } bg-red-500 rounded px-1 text-[10px] text-white inline font-normal">${
-                caseItem.status
+                caseItem.caseStatus
               }</td>
-            <td class="px-6 py-4">${caseItem.startDate}</td>
-            <td class="px-6 py-4">
-            ${caseItem.endDate}
-            </td>
+            <td class="px-6 py-4">${this.returnDateString(
+              caseItem.createdAt
+            )}</td>
+
             <td class="px-6 py-4">
             ${this._employeeIdToName(caseItem.assignedTo)}
             </td>

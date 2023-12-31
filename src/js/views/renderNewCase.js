@@ -3,10 +3,19 @@ import Views from "./views";
 class RenderNewCase extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
-  clientSearchField;
-  clientList;
-  allClients;
-  curClient;
+  _clientSearchField;
+  _clientList;
+  _allClients;
+  _curClient;
+  _caseIdValue;
+  _clientNameValue;
+  _clientIdValue;
+  _caseTypeValue;
+  _caseStatusValue;
+  _assignedToValue;
+  _createdAtValue;
+  _caseDescriptionValue;
+  _caseNoteValue;
 
   constructor() {
     super();
@@ -16,11 +25,11 @@ class RenderNewCase extends Views {
 
   createClientList() {
     // Clear existing options
-    this.clientList.innerHTML = "";
-    for (const c in this.allClients) {
+    this._clientList.innerHTML = "";
+    for (const c in this._allClients) {
       const optionElement = document.createElement("option");
-      optionElement.value = this.allClients[c];
-      this.clientList.appendChild(optionElement);
+      optionElement.value = this._allClients[c];
+      this._clientList.appendChild(optionElement);
     }
   }
 
@@ -31,41 +40,91 @@ class RenderNewCase extends Views {
     return this._data.filter((c) => c.name === clientName);
   }
 
+  getLatestCase() {
+    return (
+      +this._filterCases()
+        .map((c) => c.caseId)
+        .slice(-1)[0]
+        .slice(1) + 1
+    );
+  }
+
   addHandlerSearch() {
     this._parentElement?.addEventListener("keyup", (e) => {
       if (!e.target.classList.contains("client-search-class")) return;
       if (e.target.classList.contains("client-search-class")) {
-        this.clientSearchField = e.target;
-        this.curClient = this.getClientDetails(this.clientSearchField.value);
-        this.clientList = e.target
+        this._clientSearchField = e.target;
+        this._curClient = this.getClientDetails(this._clientSearchField.value);
+        this._clientList = e.target
           .closest("div")
           .querySelector(".client-list-class");
-        if (this.curClient) {
-          this.clientSearchField
+        if (this._curClient) {
+          this._clientSearchField
             .closest("form")
             .querySelector(".client-email").textContent =
-            this.curClient[0].email;
-          this.clientSearchField
+            this._curClient[0].email;
+          this._clientSearchField
             .closest("form")
             .querySelector(".client-phone").textContent =
-            this.formatPhoneNumber(this.curClient[0].phone);
-          this.clientSearchField
+            this.formatPhoneNumber(this._curClient[0].phone);
+          this._clientSearchField
             .closest("form")
             .querySelector(
               ".client-search-div"
-            ).innerHTML = `<label id="current-client">${this.curClient[0].name} </label>`;
+            ).innerHTML = `<label id="current-client">${this._curClient[0].name} </label>`;
         }
       }
       this.createClientList();
     });
+  }
 
-    this.clientList?.addEventListener("click", (e) => {
-      console.log("this jiii");
+  addHandlerCreateNewClient(handler) {
+    this._parentElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!e.target.closest("button")) return;
+      if (e.target.classList.contains("btn-save-case") && this._curClient) {
+        this._caseIdValue = `C` + this.getLatestCase();
+        this._clientIdValue = this._clientNameToId(this._curClient?.[0].name);
+        this._caseTypeValue = this.getInputElementValue(e, `case-type-class`);
+        this._caseStatusValue = this.getInputElementValue(
+          e,
+          `case-status-class`
+        );
+        this._assignedToValue = this._employeeNameToId(
+          this.getInputElementValue(e, `case-assigned-to-class`)
+        );
+        this._createdAtValue = new Date().toISOString();
+        this._caseDescriptionValue = this.getInputElementValue(
+          e,
+          `case-description-class`
+        );
+        this._caseNoteValue = this.getInputElementValue(e, `case-note-class`);
+        const caseObj = {
+          caseId: this._caseIdValue,
+          createdBy: this.getCreatedById(),
+          createdAt: new Date().toISOString(),
+          caseType: this._caseTypeValue,
+          caseStatus: this._caseStatusValue,
+          assignedTo: this._assignedToValue,
+          caseDescription: this._caseDescriptionValue,
+          clientId: this._clientIdValue,
+          note: this._caseNoteValue,
+        };
+        handler(caseObj);
+        this.renderMessage(`New Case Created for ${this._clientNameValue}`);
+        setTimeout(function () {
+          this._lastHashValue = localStorage.getItem("lastHash")?.slice(1);
+          location.hash = this._lastHashValue;
+        }, 2 * 1000);
+      }
+      if (e.target.classList.contains("btn-clear-case")) {
+        location.reload();
+      }
     });
   }
 
   _generateMarkup() {
-    this.allClients = this._data.map((c) => c.name);
+    this._allClients = this._data.map((c) => c.name);
 
     return `<div class="p-5 flex">
     <form class="w-full max-w-lg shadow-lg p-4">
@@ -110,12 +169,12 @@ class RenderNewCase extends Views {
           for="client-search"
             class="block uppercase text-xs tracking-wide text-gray-700 font-bold "
           >
-            Client Name or Client ID
+            Client Name
           </label>
         <div class="relative client-search-div">          
             <input class="shadow-sm text-gray-700 me-6 rounded px-2 client-search-class"
                 id="client-search"
-                placeholder="Search Name or ClientID"
+                placeholder="Search Name"
                 list="client-list"
                 autocomplete="off"
                 >
@@ -161,7 +220,7 @@ class RenderNewCase extends Views {
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="case-type-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-case"
             >
               <option >General Inquiry</option>
@@ -194,7 +253,7 @@ class RenderNewCase extends Views {
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class=" case-status-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-status"
             >
               <option >In Progress</option>
@@ -229,7 +288,7 @@ class RenderNewCase extends Views {
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="case-assigned-to-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-consultant"
             >
             ${this._employeeData.map((e) => `<option>` + e.name + `</option>`)}
@@ -254,6 +313,17 @@ class RenderNewCase extends Views {
       
       <div class="flex flex-col mb-6">
         <label
+          for="description"
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >Description</label
+        >
+        <textarea
+          id="description"
+          rows="1"
+          class="case-description-class block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Write a small Description.."
+        ></textarea>
+        <label
           for="note"
           class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >Note</label
@@ -261,7 +331,7 @@ class RenderNewCase extends Views {
         <textarea
           id="note"
           rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="case-note-class block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Comments..."
         ></textarea>
       </div>
@@ -273,7 +343,7 @@ class RenderNewCase extends Views {
         </button>
         <button
         id="clear-case-button"
-          class="bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+          class="btn-clear-case bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
         >
           Clear
         </button>

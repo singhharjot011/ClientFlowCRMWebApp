@@ -19,6 +19,10 @@ export default class Views {
   _clear() {
     this._parentElement.innerHTML = "";
   }
+  _filterCases() {
+    const allCases = this._data.map((i) => i.cases).flat();
+    return allCases;
+  }
 
   formatPhoneNumber(phone) {
     const formattedPhone = [
@@ -30,6 +34,30 @@ export default class Views {
     ].join("");
     return formattedPhone;
   }
+
+  getCreatedById() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    return loggedInUser[0].employeeId;
+  }
+
+  getConsultantId(empName) {
+    console.log(empName);
+    const consultant = this._employeeData.filter((u) => u.name === empName);
+    return consultant[0].employeeId;
+  }
+
+  returnDateString(date) {
+    const rawDate = new Date(date);
+    const day = rawDate.getDate();
+    const month = rawDate.getMonth();
+    const year = rawDate.getFullYear();
+    return `${month + 1}/${day}/${year}`;
+  }
+
+  getInputElementValue(e, className) {
+    return e.target.closest("form").querySelector(`.${className}`).value;
+  }
+
   renderSpinner(parentEl) {
     const markup = `
         <div class="flex  h-96 justify-center items-center" role="status">
@@ -76,6 +104,26 @@ export default class Views {
     return this._employeeData
       .filter((i) => i.employeeId === assignedToId)
       .map((i) => i.name)
+      .join("");
+  }
+
+  _employeeNameToId(assignedToName) {
+    return this._employeeData
+      .filter((e) => e.name === assignedToName)
+      .map((e) => e.employeeId)
+      .join("");
+  }
+
+  _clientNameToId(clientName) {
+    return this._data
+      .filter((c) => c.name === clientName)
+      .map((c) => c.id)
+      .join("");
+  }
+  _clientIdToName(clientId) {
+    return this._data
+      .filter((c) => c.id === clientId)
+      .map((c) => c.name)
       .join("");
   }
 }

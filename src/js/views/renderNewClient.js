@@ -17,19 +17,9 @@ class RenderNewClient extends Views {
   _noteValue;
   _lastHashValue;
 
-  getInputElementValue(e, className) {
-    return e.target.closest("form").querySelector(`.${className}`).value;
-  }
 
-  getCreatedById() {
-    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
-    return loggedInUser[0].employeeId;
-  }
 
-  getConsultantId(empName) {
-    const consultant = this._employeeData.filter((u) => u.name === empName);
-    return consultant[0].employeeId;
-  }
+
 
   validatePhone(element) {
     document.addEventListener("input", e);

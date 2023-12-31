@@ -105,9 +105,9 @@ class RenderCaseDetails extends Views {
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-visa"
+            for="grid-case"
           >
-            Visa Type
+            Case Type
           </label>
           <div class="relative">
             <select
@@ -167,28 +167,28 @@ class RenderCaseDetails extends Views {
               id="grid-status"
             >
               <option ${
-                caseData[0].type.startsWith("Pending") && `selected`
+                caseData[0].caseType.startsWith("Pending") && `selected`
               }>Pending</option>
               <option ${
-                caseData[0].type.startsWith("Under") && `selected`
+                caseData[0].caseType.startsWith("Under") && `selected`
               }>Under Review</option>
               <option ${
-                caseData[0].type.startsWith("Approved") && `selected`
+                caseData[0].caseType.startsWith("Approved") && `selected`
               }>Approved</option>
               <option ${
-                caseData[0].type.startsWith("Denied") && `selected`
+                caseData[0].caseType.startsWith("Denied") && `selected`
               }>Denied</option>
               <option ${
-                caseData[0].type.startsWith("Processing") && `selected`
+                caseData[0].caseType.startsWith("Processing") && `selected`
               }>Processing</option>
               <option ${
-                caseData[0].type.startsWith("Issued") && `selected`
+                caseData[0].caseType.startsWith("Issued") && `selected`
               }>Issued</option>
               <option ${
-                caseData[0].type.startsWith("Expired") && `selected`
+                caseData[0].caseType.startsWith("Expired") && `selected`
               }>Expired</option>
               <option ${
-                caseData[0].type.startsWith("Cancelled") && `selected`
+                caseData[0].caseType.startsWith("Cancelled") && `selected`
               }>Cancelled/Revoked</option>
             </select>
             <div

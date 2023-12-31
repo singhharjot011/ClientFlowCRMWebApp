@@ -84,21 +84,23 @@ const saveDataInLocalStorage = () => {
           cases: [
             {
               caseId: "C12345",
-              status: "Approved",
-              type: "Work Visa",
-              startDate: "2022-06-15",
-              endDate: "2023-06-15",
+              caseType: "General Inquiry",
+              caseStatus: "In Progress",
+              caseDescription: "Question regarding Express Entry Draw",
+              createdAt: "2023-05-15T08:30:00.000Z",
               assignedTo: "E201",
               clientId: "I101",
+              note: [],
             },
             {
               caseId: "C12346",
-              status: "Approved",
-              type: "Permanent Residency",
-              startDate: "2021-03-10",
-              endDate: null,
+              caseType: "Update Request",
+              caseStatus: "Pending",
+              createdAt: "2023-08-27T16:45:00.000Z",
+              caseDescription: "Client asking for an Update",
               assignedTo: "E202",
               clientId: "I101",
+              note: [],
             },
           ],
           appointments: [
@@ -130,12 +132,13 @@ const saveDataInLocalStorage = () => {
           cases: [
             {
               caseId: "C67890",
-              status: "Pending",
-              type: "Student Visa",
-              startDate: "2023-01-20",
-              endDate: "2024-01-20",
+              caseType: "Payment Related",
+              caseStatus: "Completed",
+              createdAt: "2023-11-10T12:15:00.000Z",
+              caseDescription: "Email regarding pending payment",
               assignedTo: "E204",
               clientId: "I102",
+              note: [],
             },
           ],
           appointments: [],
@@ -157,21 +160,23 @@ const saveDataInLocalStorage = () => {
           cases: [
             {
               caseId: "C12347",
-              status: "Approved",
-              type: "Work Visa",
-              startDate: "2022-06-15",
-              endDate: "2023-06-15",
+              caseType: "Update Request",
+              caseStatus: "Pending",
+              createdAt: "2023-11-10T12:15:00.000Z",
+              caseDescription: "Documents Updated",
               assignedTo: "E203",
               clientId: "I103",
+              note: [],
             },
             {
               caseId: "C12348",
-              status: "Approved",
-              type: "Permanent Residency",
-              startDate: "2021-03-10",
-              endDate: null,
+              caseType: "Payment Related",
+              caseStatus: "Under Review",
+              createdAt: "2023-11-10T12:15:00.000Z",
+              caseDescription: "Payment Cleared",
               assignedTo: "E202",
               clientId: "I103",
+              note: [],
             },
           ],
           appointments: [
@@ -199,26 +204,7 @@ const saveDataInLocalStorage = () => {
           province: "ON",
           postalCode: "L6P0P0",
           consultant: "E202",
-          cases: [
-            {
-              caseId: "C12349",
-              status: "Approved",
-              type: "Work Visa",
-              startDate: "2022-06-15",
-              endDate: "2023-06-15",
-              assignedTo: "E203",
-              clientId: "I104",
-            },
-            {
-              caseId: "C12357",
-              status: "Approved",
-              type: "Permanent Residency",
-              startDate: "2021-03-10",
-              endDate: null,
-              assignedTo: "E202",
-              clientId: "I104",
-            },
-          ],
+          cases: [],
           appointments: [
             {
               appointmentId: "A98766",
@@ -335,8 +321,8 @@ const controlAddClient = function (newClient) {
   model.createClientObject(newClient);
 };
 
-const controlCreateCase = function (newCase, clientId) {
-  model.createCase(newCase, clientId);
+const controlCreateCase = function (newCase) {
+  model.createCase(newCase);
 };
 
 const setUserLoggedIn = function (username = "", logOutFlag) {
@@ -353,11 +339,13 @@ const init = function () {
     location.hash = "login";
     renderLogin.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
+    renderNewCase.addHandlerCreateNewClient(controlCreateCase);
     renderTopPanel.triggerEventListeners();
   }
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
+    renderNewCase.addHandlerCreateNewClient(controlCreateCase);
     renderTopPanel.addHandlerRender(fetchData);
     renderTopPanel.triggerEventListeners();
 
