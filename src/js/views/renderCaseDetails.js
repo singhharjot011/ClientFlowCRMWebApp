@@ -83,7 +83,7 @@ class RenderCaseDetails extends Views {
           <label
           class="block text-gray-700"
         >
-        ${clientData[0].email}
+        ${clientData[0].email ? clientData[0].email : ""}
         </label>
         </div>
         <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">
@@ -115,29 +115,20 @@ class RenderCaseDetails extends Views {
               id="grid-visa"
             >
               <option ${
-                caseData[0].type.startsWith("Work") && `selected`
-              }>Work Permit</option>
+                caseData[0].caseType.startsWith("General") && `selected`
+              }>General Inquiry</option>
               <option ${
-                caseData[0].type.startsWith("Student") && `selected`
-              }>Student Visa</option>
+                caseData[0].caseType.startsWith("Callback") && `selected`
+              }>Callback Request</option>
               <option ${
-                caseData[0].type.startsWith("Super") && `selected`
-              }>Super Visa</option>
+                caseData[0].caseType.startsWith("Update") && `selected`
+              }>Update Request</option>
               <option ${
-                caseData[0].type.startsWith("Vistor") && `selected`
-              }>Visitor Visa</option>
+                caseData[0].caseType.startsWith("Payment") && `selected`
+              }>Payment Related</option>
               <option ${
-                caseData[0].type.startsWith("Express") && `selected`
-              }>Express Entry / PR</option>
-              <option ${
-                caseData[0].type.startsWith("Family") && `selected`
-              }>Family-Sponsorship</option>
-              <option ${
-                caseData[0].type.startsWith("TRV") && `selected`
-              }>TRV</option>
-              <option ${
-                caseData[0].type.startsWith("Other") && `selected`
-              }>Others</option>
+                caseData[0].caseType.startsWith("Others") && `selected`
+              }>Others</option>              
             </select>
             <div
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -254,8 +245,9 @@ class RenderCaseDetails extends Views {
         <textarea
           id="note"
           rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="case-note-class block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Comments..."
+          
         ></textarea>
       </div>
       <div class="flex w-full space-x-3 justify-start">
@@ -264,20 +256,20 @@ class RenderCaseDetails extends Views {
         >
           Save
         </button>
-        <button
-        id="clear-button"
-          class="bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
-        >
-          Clear
-        </button>
+        
       </div>
     </form>
-    <div class="flex flex-col shadow-lg">
-    <span class="font-bold text-sm">Anisha Lee</span>
-    <span class="font-bold text-sm">${new Date()}</span>
-    <p>Client called to get an update reagrding his Visa</p>
-    </div>
-  </div>`;
+  ${caseData[0].note.map(
+    (n) => `<div class="flex flex-col  w-full shadow-lg">
+      <div class="flex self-start space-x-2"><span class="font-bold text-sm">${this._employeeIdToName(
+          n.writtenBy
+        )} </span>
+        <span class="font-bold text-sm">${this.returnDateTimeString(
+          n.writtenAt
+        )}</span> </div>
+        <div class="flex w-2/3 self-end"><p>${n.note}</p></div>
+      </div>`
+        )}`;
   }
 }
 

@@ -316,19 +316,15 @@ class RenderClientDetails extends Views {
             rows="4"
             class="note-input block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Comments..."
-          ></textarea>
+          >${clientData[0].clientNote}</textarea>
         </div>
         <div class="flex w-full space-x-3 justify-start">
           <button
-            class="btn-save bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+            class="btn-update bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
           >
-            Save
+            Update
           </button>
-          <button
-            class="btn-clear bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
-          >
-            Clear
-          </button>
+         
         </div>
       </form>
     </div>

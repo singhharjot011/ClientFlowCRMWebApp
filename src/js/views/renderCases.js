@@ -62,7 +62,7 @@ class RenderCases extends Views {
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              <a class="case-anchor" href="#${caseItem.caseId.toLowerCase()}">${
+              <a class="case-anchor text-blue-500" href="#${caseItem.caseId.toLowerCase()}">${
                 caseItem.caseId
               }</a>
             </th>

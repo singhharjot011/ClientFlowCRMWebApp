@@ -51,7 +51,26 @@ export default class Views {
     const day = rawDate.getDate();
     const month = rawDate.getMonth();
     const year = rawDate.getFullYear();
+
     return `${month + 1}/${day}/${year}`;
+  }
+
+  addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  returnDateTimeString(date) {
+    const rawDate = new Date(date);
+    const day = rawDate.getDate();
+    const month = rawDate.getMonth();
+    const year = rawDate.getFullYear();
+    const hour = this.addZero(rawDate.getHours());
+    const minutes = this.addZero(rawDate.getMinutes());
+
+    return `${month + 1 + "/" + day + "/" + year +" "+ hour + ":" + minutes} `;
   }
 
   getInputElementValue(e, className) {

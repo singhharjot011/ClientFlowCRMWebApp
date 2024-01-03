@@ -23,9 +23,7 @@ export const createClientObject = function (data) {
 };
 
 export const createCase = function (caseData) {
-  console.log(caseData);
   const curClient = state.clients.filter((c) => c.id === caseData.clientId);
-  console.log(curClient);
   curClient[0].cases.push(caseData);
   addToLocalStorage();
 };

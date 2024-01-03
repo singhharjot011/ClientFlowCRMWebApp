@@ -108,7 +108,13 @@ class RenderNewCase extends Views {
           assignedTo: this._assignedToValue,
           caseDescription: this._caseDescriptionValue,
           clientId: this._clientIdValue,
-          note: this._caseNoteValue,
+          note: [
+            {
+              note: this._caseNoteValue,
+              writtenBy: this.getCreatedById(),
+              writtenAt: new Date().toISOString(),
+            },
+          ],
         };
         handler(caseObj);
         this.renderMessage(`New Case Created for ${this._clientNameValue}`);

@@ -75,7 +75,7 @@ const saveDataInLocalStorage = () => {
           phone: "234567890",
           createdBy: "E201",
           createdAt: "2023-12-12T09:30:00Z",
-          clientNote: "",
+          clientNote: "Check if it works",
           visaType: "Work Permit",
           city: "Toronto",
           province: "ON",
@@ -131,7 +131,7 @@ const saveDataInLocalStorage = () => {
           consultant: "E201",
           cases: [
             {
-              caseId: "C67890",
+              caseId: "C12347",
               caseType: "Payment Related",
               caseStatus: "Completed",
               createdAt: "2023-11-10T12:15:00.000Z",
@@ -159,7 +159,7 @@ const saveDataInLocalStorage = () => {
           consultant: "E202",
           cases: [
             {
-              caseId: "C12347",
+              caseId: "C12348",
               caseType: "Update Request",
               caseStatus: "Pending",
               createdAt: "2023-11-10T12:15:00.000Z",
@@ -169,7 +169,7 @@ const saveDataInLocalStorage = () => {
               note: [],
             },
             {
-              caseId: "C12348",
+              caseId: "C12349",
               caseType: "Payment Related",
               caseStatus: "Under Review",
               createdAt: "2023-11-10T12:15:00.000Z",
