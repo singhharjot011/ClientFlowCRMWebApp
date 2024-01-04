@@ -85,6 +85,7 @@ class RenderNewCase extends Views {
       if (e.target.classList.contains("btn-save-case") && this._curClient) {
         this._caseIdValue = `C` + this.getLatestCase();
         this._clientIdValue = this._clientNameToId(this._curClient?.[0].name);
+        this._clientNameValue = this._curClient?.[0].name;
         this._caseTypeValue = this.getInputElementValue(e, `case-type-class`);
         this._caseStatusValue = this.getInputElementValue(
           e,

@@ -241,29 +241,26 @@ class RenderCaseDetails extends Views {
               id="grid-status"
             >
               <option ${
+                caseData[0].caseType.startsWith("In") && `selected`
+              }>In Progress</option>
+              <option ${
                 caseData[0].caseType.startsWith("Pending") && `selected`
               }>Pending</option>
               <option ${
                 caseData[0].caseType.startsWith("Under") && `selected`
               }>Under Review</option>
               <option ${
-                caseData[0].caseType.startsWith("Approved") && `selected`
-              }>Approved</option>
+                caseData[0].caseType.startsWith("Completed") && `selected`
+              }>Completed</option>
               <option ${
-                caseData[0].caseType.startsWith("Denied") && `selected`
-              }>Denied</option>
-              <option ${
-                caseData[0].caseType.startsWith("Processing") && `selected`
-              }>Processing</option>
-              <option ${
-                caseData[0].caseType.startsWith("Issued") && `selected`
-              }>Issued</option>
-              <option ${
-                caseData[0].caseType.startsWith("Expired") && `selected`
-              }>Expired</option>
+                caseData[0].caseType.startsWith("Referred") && `selected`
+              }>Referred</option>
               <option ${
                 caseData[0].caseType.startsWith("Cancelled") && `selected`
-              }>Cancelled/Revoked</option>
+              }>Cancelled</option>
+              <option ${
+                caseData[0].caseType.startsWith("Closed") && `selected`
+              }>Closed</option>
             </select>
             <div
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -353,8 +350,9 @@ class RenderCaseDetails extends Views {
       </div>
     </form>
     <div class="flex flex-col  w-full shadow-lg">
-    ${caseData[0].note.map(
-      (n) => `<div class="flex self-start space-x-2">
+    ${caseData[0].note
+      .map(
+        (n) => `<div class="flex self-start space-x-2">
               <span class="font-bold text-sm">${this._employeeIdToName(
                 n.writtenBy
               )} 
@@ -365,7 +363,8 @@ class RenderCaseDetails extends Views {
             </div>
             <div class="flex w-2/3 self-end"><p>${n.note}</p></div>
           `
-    ).join("")}</div>`;
+      )
+      .join("")}</div>`;
   }
 }
 
