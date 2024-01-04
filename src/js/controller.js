@@ -325,6 +325,11 @@ const controlCreateCase = function (newCase) {
   model.createCase(newCase);
 };
 
+const controlUpdateCase = function (updatedCase) {
+  console.log(updatedCase);
+  model.updateCase(updatedCase);
+};
+
 const setUserLoggedIn = function (username = "", logOutFlag) {
   model.state.users.map((u) =>
     u.username === username ? (u.userLoggedIn = true) : (u.userLoggedIn = false)
@@ -339,13 +344,15 @@ const init = function () {
     location.hash = "login";
     renderLogin.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
-    renderNewCase.addHandlerCreateNewClient(controlCreateCase);
+    renderNewCase.addHandlerCreateNewCase(controlCreateCase);
+    renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
     renderTopPanel.triggerEventListeners();
   }
   if (localStorage.isLoggedIn === "true") {
     renderDashboard.addHandlerRender(fetchData);
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
-    renderNewCase.addHandlerCreateNewClient(controlCreateCase);
+    renderNewCase.addHandlerCreateNewCase(controlCreateCase);
+    renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
     renderTopPanel.addHandlerRender(fetchData);
     renderTopPanel.triggerEventListeners();
 

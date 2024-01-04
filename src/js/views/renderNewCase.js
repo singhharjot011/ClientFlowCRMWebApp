@@ -78,7 +78,7 @@ class RenderNewCase extends Views {
     });
   }
 
-  addHandlerCreateNewClient(handler) {
+  addHandlerCreateNewCase(handler) {
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
       if (!e.target.closest("button")) return;
@@ -101,7 +101,7 @@ class RenderNewCase extends Views {
         this._caseNoteValue = this.getInputElementValue(e, `case-note-class`);
         const caseObj = {
           caseId: this._caseIdValue,
-          createdBy: this.getCreatedById(),
+          createdBy: this.getCurrentLoggedInId(),
           createdAt: new Date().toISOString(),
           caseType: this._caseTypeValue,
           caseStatus: this._caseStatusValue,
@@ -111,7 +111,7 @@ class RenderNewCase extends Views {
           note: [
             {
               note: this._caseNoteValue,
-              writtenBy: this.getCreatedById(),
+              writtenBy: this.getCurrentLoggedInId(),
               writtenAt: new Date().toISOString(),
             },
           ],

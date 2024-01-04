@@ -17,10 +17,6 @@ class RenderNewClient extends Views {
   _noteValue;
   _lastHashValue;
 
-
-
-
-
   validatePhone(element) {
     document.addEventListener("input", e);
   }
@@ -116,7 +112,7 @@ class RenderNewClient extends Views {
           name: this._firstNameValue.trim() + " " + this._lastNameValue.trim(),
           email: this._emailAddressValue,
           phone: this._phoneValue,
-          createdBy: this.getCreatedById(),
+          createdBy: this.getCurrentLoggedInId(),
           createdAt: new Date().toISOString(),
           visaType: this._visaTypeValue,
           consultant: this.getConsultantId(this._consultantValue),

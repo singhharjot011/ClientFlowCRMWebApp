@@ -89,7 +89,7 @@ class RenderCases extends Views {
                 : caseItem.caseStatus.toLowerCase() === "referred"
                 ? "bg-yellow-500"
                 : ""
-            } bg-red-500 rounded px-1 text-[10px] text-white inline font-normal">${
+            } rounded px-1 text-[10px] text-white inline font-normal">${
                 caseItem.caseStatus
               }</td>
             <td class="px-6 py-4">${this.returnDateString(

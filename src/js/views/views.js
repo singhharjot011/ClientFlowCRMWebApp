@@ -1,6 +1,7 @@
 export default class Views {
   _data;
   _application = document.querySelector(".application");
+  _curCase;
 
   render(data, employeeData, taskData, usersData) {
     if (this._parentElement.matches(".main-panel"))
@@ -35,7 +36,7 @@ export default class Views {
     return formattedPhone;
   }
 
-  getCreatedById() {
+  getCurrentLoggedInId() {
     const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
     return loggedInUser[0].employeeId;
   }
@@ -70,11 +71,22 @@ export default class Views {
     const hour = this.addZero(rawDate.getHours());
     const minutes = this.addZero(rawDate.getMinutes());
 
-    return `${month + 1 + "/" + day + "/" + year +" "+ hour + ":" + minutes} `;
+    return `${
+      month + 1 + "/" + day + "/" + year + " " + hour + ":" + minutes
+    } `;
   }
 
   getInputElementValue(e, className) {
     return e.target.closest("form").querySelector(`.${className}`).value;
+  }
+
+  getInputElement(e, className) {
+    return e.target.closest("form").querySelector(`.${className}`);
+  }
+
+  getCurrentCaseDetails(caseId) {
+    this._curCase = this._filterCases().filter((c) => c.caseId === caseId);
+    return this._curCase;
   }
 
   renderSpinner(parentEl) {

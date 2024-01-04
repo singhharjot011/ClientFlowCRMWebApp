@@ -4,6 +4,18 @@ class RenderCaseDetails extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
   _textArea = this._parentElement.getElementsByTagName("textarea");
+  _curCaseType;
+  _curCaseStatus;
+  _curCaseDescription;
+  _curAssignedTo;
+  _curNoteObj;
+
+  _newCaseType;
+  _newCaseStatus;
+  _newCaseDescription;
+  _newAssignedTo;
+  _newCaseNote;
+  _newCaseObj;
 
   _filterCases() {
     const allCases = this._data.map((i) => i.cases).flat();
@@ -13,6 +25,77 @@ class RenderCaseDetails extends Views {
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) => {
       window.addEventListener(ev, handler);
+    });
+  }
+
+  addHandlerUpdateCase(handler) {
+    this._parentElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!e.target.closest("button")) return;
+      if (
+        e.target.classList.contains("btn-update-case")
+        // && this._curClient
+      ) {
+        console.log("reached");
+        this._caseIdValue = this.getInputElement(
+          e,
+          "case-id-label-class"
+        ).textContent;
+        let currentCase = this.getCurrentCaseDetails(this._caseIdValue);
+        console.log(currentCase);
+
+        //Saving Current Values before updating
+        this._curCaseType = currentCase[0].caseType;
+        this._curCaseStatus = currentCase[0].caseStatus;
+        this._curCaseDescription = currentCase[0].caseDescription;
+        this._curAssignedTo = currentCase[0].assignedTo;
+        this._curNoteObj = currentCase[0].note;
+
+        //Saving new Values
+        this._newCaseType = this.getInputElementValue(e, `case-type-class`);
+        this._newCaseStatus = this.getInputElementValue(e, `case-status-class`);
+        this._newCaseDescription = this.getInputElementValue(
+          e,
+          `case-description-class`
+        );
+        this._newAssignedTo = this._employeeNameToId(
+          this.getInputElementValue(e, `case-assigned-to-class`)
+        );
+        this._newCaseNote = this.getInputElementValue(e, `case-note-class`);
+        this._newCaseObj = {
+          note: this._newCaseNote,
+          writtenBy: this.getCurrentLoggedInId(),
+          writtenAt: new Date().toISOString(),
+        };
+
+        const updatedCaseObj = {
+          ...currentCase[0],
+          caseId: this._caseIdValue,
+          lastUpdatedBy: this.getCurrentLoggedInId(),
+          lastUpdatedAt: new Date().toISOString(),
+          caseType: this._newCaseType,
+          caseStatus: this._newCaseStatus,
+          assignedTo: this._newAssignedTo,
+
+          caseDescription: this._newCaseDescription,
+          note: [
+            ...currentCase[0].note,
+            {
+              note: this._newCaseNote,
+              writtenBy: this.getCurrentLoggedInId(),
+              writtenAt: new Date().toISOString(),
+            },
+          ],
+        };
+
+        console.log(updatedCaseObj);
+        handler(updatedCaseObj);
+        this.renderMessage(`Case has been Update `);
+        setTimeout(function () {
+          this._lastHashValue = localStorage.getItem("lastHash")?.slice(1);
+          location.hash = this._lastHashValue;
+        }, 2 * 1000);
+      }
     });
   }
 
@@ -34,7 +117,7 @@ class RenderCaseDetails extends Views {
             Case ID
           </label>
           <label
-            class="block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
+            class="case-id-label-class block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
             >${caseData[0].caseId}</label
           >
         </div>
@@ -104,14 +187,14 @@ class RenderCaseDetails extends Views {
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class=" block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-case"
           >
             Case Type
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="case-type-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-visa"
             >
               <option ${
@@ -154,7 +237,7 @@ class RenderCaseDetails extends Views {
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="case-status-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-status"
             >
               <option ${
@@ -206,7 +289,7 @@ class RenderCaseDetails extends Views {
           </label>
           <div class="relative">
             <select
-              class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="case-assigned-to-class block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  px-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-consultant"
             >
             ${this._employeeData.map(
@@ -238,6 +321,17 @@ class RenderCaseDetails extends Views {
       
       <div class="flex flex-col mb-6">
         <label
+          for="description"
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >Description</label
+        >
+        <textarea
+          id="description"
+          rows="1"
+          class="case-description-class block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Write a small Description.."
+         disabled>${caseData[0].caseDescription.trim()}</textarea>
+        <label
           for="note"
           class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >Note</label
@@ -247,29 +341,31 @@ class RenderCaseDetails extends Views {
           rows="4"
           class="case-note-class block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Comments..."
-          
         ></textarea>
       </div>
       <div class="flex w-full space-x-3 justify-start">
         <button
-          class="bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+          class="btn-update-case bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
         >
-          Save
+          Update
         </button>
         
       </div>
     </form>
-  ${caseData[0].note.map(
-    (n) => `<div class="flex flex-col  w-full shadow-lg">
-      <div class="flex self-start space-x-2"><span class="font-bold text-sm">${this._employeeIdToName(
-          n.writtenBy
-        )} </span>
-        <span class="font-bold text-sm">${this.returnDateTimeString(
-          n.writtenAt
-        )}</span> </div>
-        <div class="flex w-2/3 self-end"><p>${n.note}</p></div>
-      </div>`
-        )}`;
+    <div class="flex flex-col  w-full shadow-lg">
+    ${caseData[0].note.map(
+      (n) => `<div class="flex self-start space-x-2">
+              <span class="font-bold text-sm">${this._employeeIdToName(
+                n.writtenBy
+              )} 
+              </span>
+              <span class="font-bold text-sm">${this.returnDateTimeString(
+                n.writtenAt
+              )}</span> 
+            </div>
+            <div class="flex w-2/3 self-end"><p>${n.note}</p></div>
+          `
+    ).join("")}</div>`;
   }
 }
 

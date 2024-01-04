@@ -28,6 +28,26 @@ export const createCase = function (caseData) {
   addToLocalStorage();
 };
 
+export const updateCase = function (updatedCase) {
+  const curClient = state.clients.find((c) => c.id === updatedCase.clientId);
+  console.log(curClient);
+  if (curClient) {
+    const index = curClient.cases.findIndex(
+      (c) => c.caseId === updatedCase.caseId
+    );
+
+    if (index !== -1) {
+      // Update the existing case
+      curClient.cases[index] = updatedCase;
+      addToLocalStorage();
+    } else {
+      console.error(`Case with ID ${updatedCase.caseId} not found.`);
+    }
+  } else {
+    console.error(`Client with ID ${updatedCase.clientId} not found.`);
+  }
+};
+
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);
