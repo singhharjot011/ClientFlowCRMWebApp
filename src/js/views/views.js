@@ -123,7 +123,7 @@ export default class Views {
   }
 
   renderMessage(message = this._message) {
-    const markup = `<div class="message shadow-lg flex justify-center items-center p-5 text-center w-1/2 h-96">
+    const markup = `<div class="message shadow-lg flex justify-center items-center p-5 text-center h-screen w-screen">
         <p class="text-xl">${message}</p>
       </div>`;
 

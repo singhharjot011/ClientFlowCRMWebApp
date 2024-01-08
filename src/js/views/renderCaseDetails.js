@@ -36,13 +36,11 @@ class RenderCaseDetails extends Views {
         e.target.classList.contains("btn-update-case")
         // && this._curClient
       ) {
-        console.log("reached");
         this._caseIdValue = this.getInputElement(
           e,
           "case-id-label-class"
         ).textContent;
         let currentCase = this.getCurrentCaseDetails(this._caseIdValue);
-        console.log(currentCase);
 
         //Saving Current Values before updating
         this._curCaseType = currentCase[0].caseType;
@@ -68,6 +66,14 @@ class RenderCaseDetails extends Views {
           writtenAt: new Date().toISOString(),
         };
 
+        if (
+          this._newCaseType === this._curCaseType &&
+          this._newCaseStatus === this._curCaseStatus &&
+          this._newAssignedTo === this._curAssignedTo &&
+          this._newCaseNote === ""
+        )
+          return;
+
         const updatedCaseObj = {
           ...currentCase[0],
           caseId: this._caseIdValue,
@@ -81,14 +87,39 @@ class RenderCaseDetails extends Views {
           note: [
             ...currentCase[0].note,
             {
-              note: this._newCaseNote,
+              note:
+                (this._newCaseType !== this._curCaseType
+                  ? "Case Type Updated from " +
+                    this._curCaseType +
+                    " to " +
+                    this._newCaseType +
+                    ". \n"
+                  : "") +
+                "" +
+                (this._newCaseStatus !== this._curCaseStatus
+                  ? "Case Status Updated from " +
+                    this._curCaseStatus +
+                    " to " +
+                    this._newCaseStatus +
+                    ". \n"
+                  : "") +
+                (this._newAssignedTo !== this._curAssignedTo
+                  ? "Consultant updated from " +
+                    this._employeeIdToName(this._curAssignedTo) +
+                    " to " +
+                    this._employeeIdToName(this._newAssignedTo) +
+                    ". \n"
+                  : "") +
+                `${
+                  this._newCaseNote !== "" ? ` Note: ${this._newCaseNote}` : ""
+                }`,
+
               writtenBy: this.getCurrentLoggedInId(),
               writtenAt: new Date().toISOString(),
             },
           ],
         };
 
-        console.log(updatedCaseObj);
         handler(updatedCaseObj);
         this.renderMessage(`Case has been Update `);
         setTimeout(function () {
@@ -103,11 +134,9 @@ class RenderCaseDetails extends Views {
     const caseData = this._filterCases().filter(
       (c) => c.caseId.toLowerCase() === location.hash.split("#")[2]
     );
-    console.log(caseData[0]);
     const clientData = this._data.filter((c) => c.id === caseData[0].clientId);
-    console.log(clientData);
 
-    return `<div class="p-5 flex">
+    return `<div class="p-5 flex ">
     <form class="w-full max-w-lg shadow-lg p-4">
       <div class="flex justify-between">
         <div class="flex space-x-2">
@@ -241,25 +270,25 @@ class RenderCaseDetails extends Views {
               id="grid-status"
             >
               <option ${
-                caseData[0].caseType.startsWith("In") && `selected`
+                caseData[0].caseStatus.startsWith("In") && `selected`
               }>In Progress</option>
               <option ${
-                caseData[0].caseType.startsWith("Pending") && `selected`
+                caseData[0].caseStatus.startsWith("Pending") && `selected`
               }>Pending</option>
               <option ${
-                caseData[0].caseType.startsWith("Under") && `selected`
+                caseData[0].caseStatus.startsWith("Under") && `selected`
               }>Under Review</option>
               <option ${
-                caseData[0].caseType.startsWith("Completed") && `selected`
+                caseData[0].caseStatus.startsWith("Completed") && `selected`
               }>Completed</option>
               <option ${
-                caseData[0].caseType.startsWith("Referred") && `selected`
+                caseData[0].caseStatus.startsWith("Referred") && `selected`
               }>Referred</option>
               <option ${
-                caseData[0].caseType.startsWith("Cancelled") && `selected`
+                caseData[0].caseStatus.startsWith("Cancelled") && `selected`
               }>Cancelled</option>
               <option ${
-                caseData[0].caseType.startsWith("Closed") && `selected`
+                caseData[0].caseStatus.startsWith("Closed") && `selected`
               }>Closed</option>
             </select>
             <div
@@ -349,19 +378,22 @@ class RenderCaseDetails extends Views {
         
       </div>
     </form>
-    <div class="flex flex-col  w-full shadow-lg">
+    <div class="flex flex-col  w-full shadow-lg ">
     ${caseData[0].note
       .map(
-        (n) => `<div class="flex self-start space-x-2">
+        (n) => `<hr/>
+        <div class="flex self-start space-x-2">
               <span class="font-bold text-sm">${this._employeeIdToName(
                 n.writtenBy
-              )} 
-              </span>
+              )}
+              </span> 
               <span class="font-bold text-sm">${this.returnDateTimeString(
                 n.writtenAt
               )}</span> 
             </div>
-            <div class="flex w-2/3 self-end"><p>${n.note}</p></div>
+            <div class="flex w-2/3 self-end"><p style="white-space: pre-line;">${
+              n.note
+            }</p></div>
           `
       )
       .join("")}</div>`;

@@ -30,7 +30,7 @@ export const createCase = function (caseData) {
 
 export const updateCase = function (updatedCase) {
   const curClient = state.clients.find((c) => c.id === updatedCase.clientId);
-  console.log(curClient);
+
   if (curClient) {
     const index = curClient.cases.findIndex(
       (c) => c.caseId === updatedCase.caseId

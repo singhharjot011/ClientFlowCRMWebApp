@@ -187,7 +187,7 @@ class RenderNewCase extends Views {
                 >
                 <img src="${require(`../../img/search.png`)}" class="h-5 absolute right-0 top-1"></img>
             </input>
-            <datalist class="client-list-class" id="client-list"></datalist>
+            <datalist class="client-list-class" id="client-list"><option></option></datalist>
         </div>
         </div>
         <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">

@@ -6,9 +6,12 @@ class RenderDashboard extends Views {
 
   _newLeadsLastWeek() {
     return this._data.filter((i) => {
-      return Math.ceil(
-        (Date.now() - new Date(i.createdAt).getTime()) / (24 * 60 * 60 * 1000) <
-          8
+      return (
+        Math.ceil(
+          (Date.now() - new Date(i.createdAt).getTime()) /
+            (24 * 60 * 60 * 1000) <
+            8
+        ) && i.cases.length === 0
       );
     }).length;
   }
@@ -17,7 +20,9 @@ class RenderDashboard extends Views {
     const pendingCases = this._data
       .map((i) => i.cases)
       .flat()
-      .filter((item) => item.status !== "");
+      .filter(
+        (item) => item.status !== "Completed" || item.status !== "Closed"
+      );
     return pendingCases.length;
   }
 
