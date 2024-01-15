@@ -71,7 +71,7 @@ class RenderCases extends Views {
             )}</td>
             <td class="px-6 py-4">${caseItem.caseDescription}</td>
             <td class="px-6 py-4">${caseItem.caseType}</td>
-            <td class=" ${
+            <td class="  text-white font-normal"><span class="${
               caseItem.caseStatus.toLowerCase() === "pending"
                 ? "bg-yellow-500"
                 : caseItem.caseStatus.toLowerCase() === "completed"
@@ -89,9 +89,9 @@ class RenderCases extends Views {
                 : caseItem.caseStatus.toLowerCase() === "referred"
                 ? "bg-yellow-500"
                 : ""
-            } rounded px-1 text-[10px] text-white inline font-normal">${
+            }  flex items-center rounded justify-center text-center h-min">${
                 caseItem.caseStatus
-              }</td>
+              }</span></td>
             <td class="px-6 py-4">${this.returnDateString(
               caseItem.createdAt
             )}</td>

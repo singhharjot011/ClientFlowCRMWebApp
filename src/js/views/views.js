@@ -2,6 +2,7 @@ export default class Views {
   _data;
   _application = document.querySelector(".application");
   _curCase;
+  _curClient;
 
   render(data, employeeData, taskData, usersData) {
     if (this._parentElement.matches(".main-panel"))
@@ -25,6 +26,11 @@ export default class Views {
     return allCases;
   }
 
+  _filterClients() {
+    const allClients = this._data;
+    return allClients;
+  }
+
   formatPhoneNumber(phone) {
     const formattedPhone = [
       ...phone.slice(0, 3),
@@ -42,7 +48,6 @@ export default class Views {
   }
 
   getConsultantId(empName) {
-    console.log(empName);
     const consultant = this._employeeData.filter((u) => u.name === empName);
     return consultant[0].employeeId;
   }
@@ -61,6 +66,17 @@ export default class Views {
       i = "0" + i;
     }
     return i;
+  }
+
+  isClientLead(clientId) {
+    console.log(
+      this._data
+        .filter((c) => c.id === clientId)
+        .map((e) => e.cases.length === 0)[0]
+    );
+    return this._data
+      .filter((c) => c.id === clientId)
+      .map((e) => e.cases.length === 0)[0];
   }
 
   returnDateTimeString(date) {
@@ -87,6 +103,11 @@ export default class Views {
   getCurrentCaseDetails(caseId) {
     this._curCase = this._filterCases().filter((c) => c.caseId === caseId);
     return this._curCase;
+  }
+
+  getCurrentClientDetails(clientId) {
+    this._curClient = this._filterClients().filter((c) => c.id === clientId);
+    return this._curClient;
   }
 
   renderSpinner(parentEl) {

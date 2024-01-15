@@ -48,6 +48,15 @@ export const updateCase = function (updatedCase) {
   }
 };
 
+export const updateClient = function (updatedClient) {
+  const index = state.clients.findIndex((c) => c.id === updatedClient.id);
+
+  if (index !== -1) {
+    state.clients[index] = updatedClient;
+    addToLocalStorage();
+  }
+};
+
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);

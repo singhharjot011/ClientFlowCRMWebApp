@@ -72,10 +72,10 @@ const saveDataInLocalStorage = () => {
           id: "I101",
           name: "John Doe",
           email: "john.doe@example.com",
-          phone: "234567890",
+          phone: "6478500369",
           createdBy: "E201",
           createdAt: "2023-12-12T09:30:00Z",
-          clientNote: "Check if it works",
+          clientNote: "Client is out of Country until next month",
           visaType: "Work Permit",
           city: "Toronto",
           province: "ON",
@@ -90,17 +90,29 @@ const saveDataInLocalStorage = () => {
               createdAt: "2023-05-15T08:30:00.000Z",
               assignedTo: "E201",
               clientId: "I101",
-              note: [],
+              note: [
+                {
+                  note: "Please Callback Client asap",
+                  writtenBy: "E202",
+                  writtenAt: "2024-01-15T03:18:58.079Z",
+                },
+              ],
             },
             {
               caseId: "C12346",
               caseType: "Update Request",
-              caseStatus: "Pending",
+              caseStatus: "Completed",
               createdAt: "2023-08-27T16:45:00.000Z",
               caseDescription: "Client asking for an Update",
               assignedTo: "E202",
               clientId: "I101",
-              note: [],
+              note: [
+                {
+                  note: "Provided Update, Closing Case",
+                  writtenBy: "E201",
+                  writtenAt: "2024-01-15T03:18:58.079Z",
+                },
+              ],
             },
           ],
           appointments: [
@@ -142,7 +154,7 @@ const saveDataInLocalStorage = () => {
             },
           ],
           appointments: [],
-          isLead: true,
+          isLead: false,
         },
         {
           id: "I103",
@@ -215,7 +227,7 @@ const saveDataInLocalStorage = () => {
               host: "E203",
             },
           ],
-          isLead: false,
+          isLead: true,
         },
       ],
     },
@@ -326,8 +338,11 @@ const controlCreateCase = function (newCase) {
 };
 
 const controlUpdateCase = function (updatedCase) {
-  console.log(updatedCase);
   model.updateCase(updatedCase);
+};
+
+const controlUpdateClient = function (updatedCase) {
+  model.updateClient(updatedCase);
 };
 
 const setUserLoggedIn = function (username = "", logOutFlag) {
@@ -346,6 +361,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+    renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.triggerEventListeners();
   }
   if (localStorage.isLoggedIn === "true") {
@@ -353,6 +369,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+    renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.addHandlerRender(fetchData);
     renderTopPanel.triggerEventListeners();
 
