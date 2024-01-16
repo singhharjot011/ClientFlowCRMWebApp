@@ -210,6 +210,18 @@ class RenderCaseDetails extends Views {
         ${this.formatPhoneNumber(clientData[0].phone)}
         </label>
         </div>
+        <div class="flex justify-between items-center w-full px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase text-xs tracking-wide text-gray-700 font-bold "
+        >
+          Visa Type
+        </label>
+        <label
+        class="block text-gray-700"
+      >
+      ${clientData[0].visaType}
+      </label>
+      </div>
       </div>
       <div class="flex flex-wrap -mx-3 mb-6">
       </div>

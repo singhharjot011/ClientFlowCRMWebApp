@@ -55,6 +55,7 @@ class RenderCases extends Views {
         </thead>
         <tbody>
           ${this._filterCases()
+            .sort((a, b) => a.caseId.slice(1) < b.caseId.slice(1) && -1)
             .map(
               (caseItem) => `<tr
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"

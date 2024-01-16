@@ -16,12 +16,27 @@ class RenderDashboard extends Views {
     }).length;
   }
 
+  _newClientsLastWeek() {
+    return this._data.filter((i) => {
+      return (
+        Math.ceil(
+          (Date.now() - new Date(i.createdAt).getTime()) /
+            (24 * 60 * 60 * 1000) <
+            8
+        ) && i.cases.length > 0
+      );
+    }).length;
+  }
+
   _calculatePendingCases() {
     const pendingCases = this._data
       .map((i) => i.cases)
       .flat()
       .filter(
-        (item) => item.status !== "Completed" || item.status !== "Closed"
+        (item) =>
+          item.caseStatus !== "Completed" &&
+          item.caseStatus !== "Closed" &&
+          item.caseStatus !== "Cancelled"
       );
     return pendingCases.length;
   }
@@ -46,7 +61,7 @@ class RenderDashboard extends Views {
               src=${require(`../../img/white-pngs/allClients.png`)}
               alt=""
             />
-            <span class="text-3xl">${this._data.length}</span>
+            <span class="text-3xl">${this._newClientsLastWeek()}</span>
             <span class="text-2xl">New Clients </span
             ><span>Last 7 Days</span>
           </div>

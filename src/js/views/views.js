@@ -69,11 +69,6 @@ export default class Views {
   }
 
   isClientLead(clientId) {
-    console.log(
-      this._data
-        .filter((c) => c.id === clientId)
-        .map((e) => e.cases.length === 0)[0]
-    );
     return this._data
       .filter((c) => c.id === clientId)
       .map((e) => e.cases.length === 0)[0];
@@ -144,7 +139,7 @@ export default class Views {
   }
 
   renderMessage(message = this._message) {
-    const markup = `<div class="message shadow-lg flex justify-center items-center p-5 text-center h-screen w-screen">
+    const markup = `<div class="message flex justify-center items-center p-5 text-center top-1/2 left-1/2 absolute ">
         <p class="text-xl">${message}</p>
       </div>`;
 
@@ -178,4 +173,13 @@ export default class Views {
       .map((c) => c.name)
       .join("");
   }
+
+  _doesClientExist(name) {
+
+    return this._data.some((c) => c.name === name);
+  }
+
+  // _sortByCaseNumber(){
+
+  // }
 }

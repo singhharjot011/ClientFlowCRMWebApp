@@ -205,8 +205,8 @@ const saveDataInLocalStorage = () => {
         },
         {
           id: "I104",
-          name: "Pelu B",
-          email: "john.B@example.com",
+          name: "Shirley Johnson",
+          email: "shirley011@example.com",
           phone: "9054567890",
           createdBy: "E201",
           createdAt: "2022-12-15T09:30:00Z",
@@ -217,16 +217,7 @@ const saveDataInLocalStorage = () => {
           postalCode: "L6P0P0",
           consultant: "E202",
           cases: [],
-          appointments: [
-            {
-              appointmentId: "A98766",
-              date: "2022-12-01",
-              time: "15:30",
-              location: "123 Main St, City",
-              description: "Client consultation",
-              host: "E203",
-            },
-          ],
+          appointments: [],
           isLead: true,
         },
       ],

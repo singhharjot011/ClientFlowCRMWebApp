@@ -35,8 +35,6 @@ class RenderNewCase extends Views {
 
   getClientDetails(clientName) {
     if (!this._data.map((c) => c.name).includes(clientName)) return;
-    console.log(clientName);
-    console.log(this._data.filter((c) => c.name === clientName));
     return this._data.filter((c) => c.name === clientName);
   }
 
@@ -44,6 +42,9 @@ class RenderNewCase extends Views {
     return (
       +this._filterCases()
         .map((c) => c.caseId)
+        .sort((a, b) => {
+          if (a.slice(1) < b.slice(1)) return -1;
+        })
         .slice(-1)[0]
         .slice(1) + 1
     );
@@ -55,6 +56,7 @@ class RenderNewCase extends Views {
       if (e.target.classList.contains("client-search-class")) {
         this._clientSearchField = e.target;
         this._curClient = this.getClientDetails(this._clientSearchField.value);
+
         this._clientList = e.target
           .closest("div")
           .querySelector(".client-list-class");
@@ -117,6 +119,9 @@ class RenderNewCase extends Views {
             },
           ],
         };
+        if (this._caseDescriptionValue.trim() === "")
+          return alert("Case Description is Mandatory");
+
         handler(caseObj);
         this.renderMessage(`New Case Created for ${this._clientNameValue}`);
         setTimeout(function () {

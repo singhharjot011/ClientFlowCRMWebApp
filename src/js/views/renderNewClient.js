@@ -50,6 +50,7 @@ class RenderNewClient extends Views {
     this._parentElement.addEventListener("click", (e) => {
       e.preventDefault();
       const missingFields = [];
+      let duplicateName = false;
       if (!e.target.closest("button")) return;
       if (e.target.classList.contains("btn-save")) {
         this._clientId = `I${
@@ -76,13 +77,21 @@ class RenderNewClient extends Views {
         this._noteValue = this.getInputElementValue(e, `note-input`);
 
         if (
+          this._doesClientExist(
+            this._firstNameValue + " " + this._lastNameValue
+          )
+        )
+          duplicateName = true;
+
+        if (
           !this._firstNameValue ||
           !this._lastNameValue ||
           !this._emailAddressValue ||
           !this._phoneValue ||
           !this._cityValue ||
           !this._postalCodeValue ||
-          !this.isValidEmail(this._emailAddressValue)
+          !this.isValidEmail(this._emailAddressValue) ||
+          missingFields
         ) {
           if (!this._firstNameValue) missingFields.push("First Name");
           if (!this._lastNameValue) missingFields.push("Last Name");
@@ -96,6 +105,10 @@ class RenderNewClient extends Views {
             missingFields.length === 0
           ) {
             alert("Please enter valid Email Address");
+          } else if (duplicateName) {
+            alert(
+              "Existing client found. Add a unique identifier, like a number, if it's a different client."
+            );
           } else {
             alert(
               `Please fill in the following required fields: ${missingFields.join(
@@ -143,7 +156,6 @@ class RenderNewClient extends Views {
   }
 
   _generateMarkup() {
-    console.log(this._employeeData);
     return `
 <div class="p-5">
   <form class="w-full max-w-lg shadow-lg p-4">
@@ -390,7 +402,7 @@ class RenderNewClient extends Views {
         for="note"
         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
         >Note</label
-      >
+      ><span class="text-xs"> (Enter Important Details only, that did not have its own field above)</span>
       <textarea
         id="note"
         rows="4"
