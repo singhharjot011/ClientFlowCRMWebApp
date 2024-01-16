@@ -91,7 +91,7 @@ class RenderNewClient extends Views {
           !this._cityValue ||
           !this._postalCodeValue ||
           !this.isValidEmail(this._emailAddressValue) ||
-          missingFields
+          duplicateName
         ) {
           if (!this._firstNameValue) missingFields.push("First Name");
           if (!this._lastNameValue) missingFields.push("Last Name");
