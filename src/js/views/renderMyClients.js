@@ -45,7 +45,9 @@ class RenderMyClients extends Views {
                 client.id
               }</a>
         </th>
-        <td class="px-6 py-4">${client.name}</td>
+        <td class="px-6 py-4 ${
+          this.isClientLead(client.id) ? "text-green-600 font-bold" : ""
+        } ">${client.name}</td>
         <td class="px-6 py-4">${this.formatPhoneNumber(client.phone)}</td>
         <td class="px-6 py-4">${client.email}</td>
         <td class="px-6 py-4">
