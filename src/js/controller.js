@@ -11,6 +11,7 @@ import renderNewClient from "./views/renderNewClient.js";
 import renderClientDetails from "./views/renderClientDetails.js";
 import renderCaseDetails from "./views/renderCaseDetails.js";
 import renderNewCase from "./views/renderNewCase.js";
+import renderTaskDetails from "./views/renderTaskDetails.js";
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -48,7 +49,7 @@ const fetchData = async function () {
     id === "allClients" && renderClients.render(clients, employees);
     id === "myClients" &&
       renderMyClients.render(clients, employees, tasks, users);
-    id === "tasks" && renderTasks.render(clients, employees, tasks);
+    id === "tasks" && renderTasks.render(clients, employees, tasks, users);
     id === "cases" && renderCases.render(clients, employees);
     id === "addNewClient" &&
       renderNewClient.render(clients, employees, tasks, users);
@@ -58,6 +59,8 @@ const fetchData = async function () {
       renderClientDetails.render(clients, employees, tasks, users);
     id.startsWith("caseid?") &&
       renderCaseDetails.render(clients, employees, tasks, users);
+    id.startsWith("taskid?") &&
+      renderTaskDetails.render(clients, employees, tasks, users);
   } catch (err) {
     renderClients.renderError();
     renderDashboard.renderError();
@@ -352,6 +355,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+
     renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.triggerEventListeners();
   }
@@ -360,6 +364,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+
     renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.addHandlerRender(fetchData);
     renderTopPanel.triggerEventListeners();

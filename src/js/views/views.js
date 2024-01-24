@@ -26,6 +26,8 @@ export default class Views {
     return allCases;
   }
 
+
+
   _filterClients() {
     const allClients = this._data;
     return allClients;
@@ -175,10 +177,13 @@ export default class Views {
   }
 
   _doesClientExist(name) {
-
     return this._data.some((c) => c.name === name);
   }
 
+  _loggedInConsultant() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    return loggedInUser[0].employeeId;
+  }
   // _sortByCaseNumber(){
 
   // }

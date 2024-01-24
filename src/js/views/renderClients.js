@@ -32,6 +32,10 @@ class RenderClients extends Views {
         localStorage.setItem("lastHash", location.hash);
         location.hash = `caseid?` + e.target.closest("a").getAttribute("href");
       }
+      if (e.target.closest("a")?.classList?.contains("task-anchor")) {
+        localStorage.setItem("lastHash", location.hash);
+        location.hash = `taskid?` + e.target.closest("a").getAttribute("href");
+      }
     });
   }
 

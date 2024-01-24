@@ -9,11 +9,6 @@ class RenderMyClients extends Views {
     this._data.filter((el) => el.map((i) => i.cases).flat());
   }
 
-  _loggedInConsultant() {
-    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
-    return loggedInUser[0].employeeId;
-  }
-
   _generateMarkup() {
     return `<div class="overflow-x-auto shadow-md sm:rounded-lg p-5">
     <table
