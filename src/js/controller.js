@@ -12,6 +12,7 @@ import renderClientDetails from "./views/renderClientDetails.js";
 import renderCaseDetails from "./views/renderCaseDetails.js";
 import renderNewCase from "./views/renderNewCase.js";
 import renderTaskDetails from "./views/renderTaskDetails.js";
+import renderNewTask from "./views/renderNewTask.js";
 
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
@@ -55,6 +56,8 @@ const fetchData = async function () {
       renderNewClient.render(clients, employees, tasks, users);
     id === "createNewCase" &&
       renderNewCase.render(clients, employees, tasks, users);
+    id === "createNewTask" &&
+      renderNewTask.render(clients, employees, tasks, users);
     id.startsWith("clientid?") &&
       renderClientDetails.render(clients, employees, tasks, users);
     id.startsWith("caseid?") &&

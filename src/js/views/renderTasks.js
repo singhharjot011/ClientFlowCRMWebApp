@@ -4,9 +4,25 @@ class RenderTasks extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
+  constructor() {
+    super();
+    this.openCreateNewTask();
+  }
+
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) => {
       window.addEventListener(ev, handler);
+    });
+  }
+
+  openCreateNewTask() {
+    this._parentElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!e.target.closest("button") && !e.target.closest("a")) return;
+      if (e.target.classList.contains("btn-create-task")) {
+        localStorage.setItem("lastHash", location.hash);
+        location.hash = `createNewTask`;
+      }
     });
   }
 
@@ -14,8 +30,8 @@ class RenderTasks extends Views {
     // console.log(this._loggedInConsultant());
     return `<div class="flex flex-col w-full h-full">
     <div class=" flex w-full justify-end px-5 pt-5">
-      <button class="btn-create-case bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
-    + Create New Case
+      <button class="btn-create-task bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
+    + Create New Task
   </button>
   </div>
   <div class="overflow-x-auto shadow-md sm:rounded-lg p-5">  

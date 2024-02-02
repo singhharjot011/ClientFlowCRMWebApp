@@ -28,6 +28,9 @@ class RenderCases extends Views {
     });
   }
 
+
+
+
   _generateMarkup() {
     return `<div class="flex flex-col w-full h-full">
     <div class=" flex w-full justify-end px-5 pt-5">
