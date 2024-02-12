@@ -27,7 +27,7 @@ class RenderTasks extends Views {
   }
 
   _generateMarkup() {
-    // console.log(this._loggedInConsultant());
+    // console.log(this._loggedInConsultant(),this._taskData);
     return `<div class="flex flex-col w-full ">
     <div class=" flex w-full justify-end px-5 pt-5">
       <button class="btn-create-task bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
@@ -52,8 +52,8 @@ class RenderTasks extends Views {
       <tbody>
         ${this._taskData
           .map((task) =>
-            task.assignedTo ===
-            `${this._loggedInConsultant() && task.complete === false}`
+            task.assignedTo === `${this._loggedInConsultant()}` &&
+            task.completed === false
               ? `<tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         ><th

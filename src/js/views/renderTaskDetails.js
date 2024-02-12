@@ -115,6 +115,11 @@ class RenderTaskDetails extends Views {
             >
               Update
             </button>
+            <button
+              class="btn-complete-task bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+            >
+              Mark Completed
+            </button>
             
           </div>
         </form>
