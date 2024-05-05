@@ -3,14 +3,33 @@ import Views from "./views";
 class RenderTaskDetails extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
+  addHandlerMarkCompleted(handler) {
+    this._parentElement.addEventListener("click", (event) => {
+      const target = event.target;
+
+      if (target.classList.contains("btn-complete-task")) {
+        const taskId = target
+          .closest("form")
+          .querySelector(".task-id-label-class").textContent;
+
+        let task = this._taskData.filter((t) => t.id === taskId)[0];
+        task = { ...task, completed: true };
+        handler(task);
+        this.renderMessage(`Task Completed`);
+        setTimeout(function () {
+          this._lastHashValue = localStorage.getItem("lastHash")?.slice(1);
+          location.hash = this._lastHashValue;
+        }, 1 * 1000);
+      }
+    });
+  }
 
   _generateMarkup() {
     const taskData = this._taskData.filter(
       (i) => i.id === location.hash.split("#")[2]
     );
-    console.log(taskData);
 
-    return `<div class="p-5 flex ">
+    return `<div class="p-5 flex task-details">
         <form class="w-full max-w-lg shadow-lg p-4">
           <div class="flex justify-between">
             <div class="flex space-x-2">
@@ -20,7 +39,7 @@ class RenderTaskDetails extends Views {
                 Task ID
               </label>
               <label
-                class="case-id-label-class block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
+                class="task-id-label-class block uppercase tracking-wide bg-gray-100 h-min px-1 rounded text-gray-700 text-xs font-bold mb-2"
                 >${taskData[0].id}</label
               >
             </div>
@@ -97,7 +116,7 @@ class RenderTaskDetails extends Views {
               Update
             </button>
             <button
-              class="btn-complete-case bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
+              class="btn-complete-task bg-blue-500 hover:bg-blue-800 text-white font-semibold hover:text-white px-2 border hover:border-blue-500 active:bg-transparent active:text-blue-700 hover:border-transparent rounded-lg"
             >
               Mark Completed
             </button>

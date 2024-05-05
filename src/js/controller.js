@@ -343,6 +343,10 @@ const controlUpdateClient = function (updatedClient) {
   model.updateClient(updatedClient);
 };
 
+const controlCompleteTask = function (updatedTask) {
+  model.completeTask(updatedTask);
+};
+
 const setUserLoggedIn = function (username = "", logOutFlag) {
   model.state.users.map((u) =>
     u.username === username ? (u.userLoggedIn = true) : (u.userLoggedIn = false)
@@ -359,6 +363,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+    renderTaskDetails.addHandlerMarkCompleted(controlCompleteTask);
 
     renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.triggerEventListeners();
@@ -368,6 +373,7 @@ const init = function () {
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);
+    renderTaskDetails.addHandlerMarkCompleted(controlCompleteTask);
 
     renderClientDetails.addHandlerUpdateClient(controlUpdateClient);
     renderTopPanel.addHandlerRender(fetchData);

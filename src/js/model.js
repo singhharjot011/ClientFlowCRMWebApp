@@ -104,3 +104,12 @@ export const loadUsers = async function (id) {
     throw err;
   }
 };
+
+export const completeTask = function (updatedTask) {
+  const tasks = [
+    ...state.tasks.filter((t) => t.id !== updatedTask.id),
+    updatedTask,
+  ];
+  state.tasks = tasks;
+  addToLocalStorage();
+};
