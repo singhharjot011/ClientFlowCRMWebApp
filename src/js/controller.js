@@ -130,6 +130,9 @@ const saveDataInLocalStorage = () => {
               location: "123 Main St, City",
               description: "Client consultation",
               host: "E203",
+              title: "Repeating Event",
+              start: "2024-05-21T16:00:00",
+              end: "2024-05-21T17:00:00",
             },
           ],
 

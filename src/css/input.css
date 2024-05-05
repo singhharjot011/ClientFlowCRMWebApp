@@ -4,13 +4,16 @@
 
 @import "tailwindcss/utilities";
 
-body {
-  font-family: "Nunito", sans-serif;
+.main-panel {
+  height: calc(100dvh - 10%);
+  overflow: hidden;
+  @apply p-8;
 }
 
 .side-panel {
   height: 100dvh;
 }
+
 .side-panel img {
   height: 30px;
   cursor: pointer;
@@ -20,6 +23,11 @@ body {
   cursor: pointer;
 }
 
-.hidden{
+.hidden {
   display: none;
+}
+
+.fc,
+.fc-media-screen {
+  @apply h-full w-full;
 }
