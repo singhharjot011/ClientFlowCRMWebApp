@@ -26,8 +26,6 @@ export default class Views {
     return allCases;
   }
 
-
-
   _filterClients() {
     const allClients = this._data;
     return allClients;

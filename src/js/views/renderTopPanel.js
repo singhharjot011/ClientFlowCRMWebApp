@@ -55,8 +55,6 @@ class RenderTopPanel extends Views {
   }
 
   _generateMarkup() {
-
-
     let imageSource = "anisha";
 
     const loggedInUser = this._usersData.find((u) => u.userLoggedIn);
@@ -106,7 +104,7 @@ class RenderTopPanel extends Views {
     <div
       class="user-info flex flex-col items-center font-semibold gap-2 relative"
     >
-      <div class="flex items-center me-10">
+      <div class="flex items-center me-10 z-10">
         <img
           class="w-10 h-10 rounded-full"
           src="${imageSource}"
@@ -121,7 +119,7 @@ class RenderTopPanel extends Views {
       </div>
       <div
         tabindex="0"
-        class="user-info-dropdown absolute translate-y-10 right-0 transform z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+        class="user-info-dropdown absolute translate-y-10 right-0 transform z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
       >
         <ul
           class="py-2 text-sm text-gray-700 dark:text-gray-200"

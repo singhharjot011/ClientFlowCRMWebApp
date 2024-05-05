@@ -1,5 +1,4 @@
 import * as model from "./model.js";
-import { isLoggedIn, USERS } from "./config.js";
 import renderLogin from "./views/renderLogin.js";
 import renderDashboard from "./views/renderDashboard";
 import renderClients from "./views/renderClients.js";
@@ -17,6 +16,7 @@ import renderNewTask from "./views/renderNewTask.js";
 import "core-js/stable"; //polifilling everything else
 import "regenerator-runtime/runtime"; //Polifilling async await
 import renderTopPanel from "./views/renderTopPanel.js";
+import renderCalendar from "./views/renderCalendar.js";
 
 const fetchData = async function () {
   try {
@@ -47,6 +47,8 @@ const fetchData = async function () {
       (renderLogin.render(clients, employees, tasks, users),
       renderLogin.addHandlerLogin(users, setUserLoggedIn));
     id === "dashboard" && renderDashboard.render(clients);
+    id === "calendar" &&
+      renderCalendar.render(clients, employees, tasks, users);
     id === "allClients" && renderClients.render(clients, employees);
     id === "myClients" &&
       renderMyClients.render(clients, employees, tasks, users);
@@ -65,8 +67,7 @@ const fetchData = async function () {
     id.startsWith("taskid?") &&
       renderTaskDetails.render(clients, employees, tasks, users);
   } catch (err) {
-    renderClients.renderError();
-    renderDashboard.renderError();
+    renderClients.renderError(err);
   }
 };
 
@@ -338,8 +339,8 @@ const controlUpdateCase = function (updatedCase) {
   model.updateCase(updatedCase);
 };
 
-const controlUpdateClient = function (updatedCase) {
-  model.updateClient(updatedCase);
+const controlUpdateClient = function (updatedClient) {
+  model.updateClient(updatedClient);
 };
 
 const setUserLoggedIn = function (username = "", logOutFlag) {
