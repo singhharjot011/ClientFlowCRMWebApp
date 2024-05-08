@@ -14,8 +14,11 @@ export default class Views {
     const markup = this._generateMarkup();
 
     this._clear();
-
-    this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    if (typeof markup === "object") {
+      this._parentElement.insertAdjacentElement("afterbegin", markup);
+    } else {
+      this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
   }
 
   _clear() {

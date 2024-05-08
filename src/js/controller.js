@@ -47,8 +47,8 @@ const fetchData = async function () {
       (renderLogin.render(clients, employees, tasks, users),
       renderLogin.addHandlerLogin(users, setUserLoggedIn));
     id === "dashboard" && renderDashboard.render(clients);
-    id === "calendar" &&
-      renderCalendar.render(clients, employees, tasks, users);
+    id === "calendar" && renderCalendar.render(clients, employees, tasks, users);
+
     id === "allClients" && renderClients.render(clients, employees);
     id === "myClients" &&
       renderMyClients.render(clients, employees, tasks, users);
@@ -363,6 +363,7 @@ const init = function () {
   if (localStorage.isLoggedIn === "false") {
     location.hash = "login";
     renderLogin.addHandlerRender(fetchData);
+
     renderNewClient.addHandlerCreateNewClient(controlAddClient);
     renderNewCase.addHandlerCreateNewCase(controlCreateCase);
     renderCaseDetails.addHandlerUpdateCase(controlUpdateCase);

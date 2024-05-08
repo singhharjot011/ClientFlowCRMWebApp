@@ -26,8 +26,3 @@
 .hidden {
   display: none;
 }
-
-.fc,
-.fc-media-screen {
-  @apply h-full w-full;
-}

@@ -49,7 +49,7 @@ class RenderDashboard extends Views {
 
   _generateMarkup() {
     return `
-      <div class="main-panel">
+      <div class="">
         <div
           class="analysis flex flex-wrap gap-10 p-10 text-neutral-200 shadow-sm"
         >
