@@ -11,6 +11,8 @@
   "description": "CRM Software",
   "default": "index.html",
   "dependencies": {
+    "@fullcalendar/resource": "^6.1.11",
+    "@fullcalendar/resource-timeline": "^6.1.11",
     "any-promise": "^1.3.0",
     "anymatch": "^3.1.3",
     "arg": "^5.0.2",

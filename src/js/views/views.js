@@ -1,9 +1,10 @@
 export default class Views {
   _data;
   _application = document.querySelector(".application");
+  _curCase;
+  _curClient;
 
   render(data, employeeData, taskData, usersData) {
-    if (this._parentElement.matches(".login")) this.addHandlerLogin(usersData);
     if (this._parentElement.matches(".main-panel"))
       this._application.classList.remove("hidden");
     this._data = data;
@@ -13,12 +14,98 @@ export default class Views {
     const markup = this._generateMarkup();
 
     this._clear();
-
-    this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    if (typeof markup === "object") {
+      this._parentElement.insertAdjacentElement("afterbegin", markup);
+    } else {
+      this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
   }
 
   _clear() {
     this._parentElement.innerHTML = "";
+  }
+  _filterCases() {
+    const allCases = this._data.map((i) => i.cases).flat();
+    return allCases;
+  }
+
+  _filterClients() {
+    const allClients = this._data;
+    return allClients;
+  }
+
+  formatPhoneNumber(phone) {
+    const formattedPhone = [
+      ...phone.slice(0, 3),
+      "-",
+      ...phone.slice(3, 6),
+      "-",
+      ...phone.slice(6),
+    ].join("");
+    return formattedPhone;
+  }
+
+  getCurrentLoggedInId() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    return loggedInUser[0].employeeId;
+  }
+
+  getConsultantId(empName) {
+    const consultant = this._employeeData.filter((u) => u.name === empName);
+    return consultant[0].employeeId;
+  }
+
+  returnDateString(date) {
+    const rawDate = new Date(date);
+    const day = rawDate.getDate();
+    const month = rawDate.getMonth();
+    const year = rawDate.getFullYear();
+
+    return `${month + 1}/${day}/${year}`;
+  }
+
+  addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  isClientLead(clientId) {
+    return this._data
+      .filter((c) => c.id === clientId)
+      .map((e) => e.cases.length === 0)[0];
+  }
+
+  returnDateTimeString(date) {
+    const rawDate = new Date(date);
+    const day = rawDate.getDate();
+    const month = rawDate.getMonth();
+    const year = rawDate.getFullYear();
+    const hour = this.addZero(rawDate.getHours());
+    const minutes = this.addZero(rawDate.getMinutes());
+
+    return `${
+      month + 1 + "/" + day + "/" + year + " " + hour + ":" + minutes
+    } `;
+  }
+
+  getInputElementValue(e, className) {
+    return e.target.closest("form").querySelector(`.${className}`).value;
+  }
+
+  getInputElement(e, className) {
+    return e.target.closest("form").querySelector(`.${className}`);
+  }
+
+  getCurrentCaseDetails(caseId) {
+    this._curCase = this._filterCases().filter((c) => c.caseId === caseId);
+    return this._curCase;
+  }
+
+  getCurrentClientDetails(clientId) {
+    this._curClient = this._filterClients().filter((c) => c.id === clientId);
+    return this._curClient;
   }
 
   renderSpinner(parentEl) {
@@ -55,7 +142,7 @@ export default class Views {
   }
 
   renderMessage(message = this._message) {
-    const markup = `<div class="message shadow-lg flex justify-center items-center p-5 text-center w-1/2 h-96">
+    const markup = `<div class="message flex justify-center items-center p-5 text-center top-1/2 left-1/2 absolute ">
         <p class="text-xl">${message}</p>
       </div>`;
 
@@ -69,4 +156,36 @@ export default class Views {
       .map((i) => i.name)
       .join("");
   }
+
+  _employeeNameToId(assignedToName) {
+    return this._employeeData
+      .filter((e) => e.name === assignedToName)
+      .map((e) => e.employeeId)
+      .join("");
+  }
+
+  _clientNameToId(clientName) {
+    return this._data
+      .filter((c) => c.name === clientName)
+      .map((c) => c.id)
+      .join("");
+  }
+  _clientIdToName(clientId) {
+    return this._data
+      .filter((c) => c.id === clientId)
+      .map((c) => c.name)
+      .join("");
+  }
+
+  _doesClientExist(name) {
+    return this._data.some((c) => c.name === name);
+  }
+
+  _loggedInConsultant() {
+    const loggedInUser = this._usersData.filter((u) => u.userLoggedIn);
+    return loggedInUser[0].employeeId;
+  }
+  // _sortByCaseNumber(){
+
+  // }
 }

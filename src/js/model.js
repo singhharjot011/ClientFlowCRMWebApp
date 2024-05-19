@@ -7,7 +7,7 @@ export const state = {
   users: {},
 };
 
-const addToLocalStorage = function () {
+export const addToLocalStorage = function () {
   const myDataArray = [
     { clients: state.clients },
     { employees: state.employees },
@@ -18,18 +18,48 @@ const addToLocalStorage = function () {
 };
 
 export const createClientObject = function (data) {
-  console.log(data);
-  console.log(state);
   state.clients.push(data);
-  console.log(state);
-  // console.log(state);
   addToLocalStorage();
+};
+
+export const createCase = function (caseData) {
+  const curClient = state.clients.filter((c) => c.id === caseData.clientId);
+  curClient[0].cases.push(caseData);
+  addToLocalStorage();
+};
+
+export const updateCase = function (updatedCase) {
+  const curClient = state.clients.find((c) => c.id === updatedCase.clientId);
+
+  if (curClient) {
+    const index = curClient.cases.findIndex(
+      (c) => c.caseId === updatedCase.caseId
+    );
+
+    if (index !== -1) {
+      // Update the existing case
+      curClient.cases[index] = updatedCase;
+      addToLocalStorage();
+    } else {
+      console.error(`Case with ID ${updatedCase.caseId} not found.`);
+    }
+  } else {
+    console.error(`Client with ID ${updatedCase.clientId} not found.`);
+  }
+};
+
+export const updateClient = function (updatedClient) {
+  const index = state.clients.findIndex((c) => c.id === updatedClient.id);
+
+  if (index !== -1) {
+    state.clients[index] = updatedClient;
+    addToLocalStorage();
+  }
 };
 
 export const loadClients = async function (id) {
   try {
     const data = await getJSON(`${API_URL}`);
-    console.log(data);
     const { clients } = data[0];
     state.clients = clients;
   } catch (err) {
@@ -75,4 +105,11 @@ export const loadUsers = async function (id) {
   }
 };
 
-export const createNewClient = function () {};
+export const completeTask = function (updatedTask) {
+  const tasks = [
+    ...state.tasks.filter((t) => t.id !== updatedTask.id),
+    updatedTask,
+  ];
+  state.tasks = tasks;
+  addToLocalStorage();
+};

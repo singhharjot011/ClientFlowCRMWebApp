@@ -11,10 +11,13 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
     <script type="module" src="src/js/controller.js"></script>
     <title>Client Flow CRM</title>
   </head>
@@ -23,7 +26,7 @@
     <section class="application hidden">
       <div class="flex text-fontColor">
         <div
-          class="side-panel flex flex-col min-w-max justify-evenly bg-primaryBG"
+          class="side-panel sticky top-0 flex flex-col min-w-max justify-evenly bg-primaryBG"
         >
           <div class="elipsis text-xl flex items-center h-[10%] gap-4 p-3">
             <img
@@ -103,11 +106,11 @@
         </div>
 
         <!-- DASHBOARD AREA STARTS HERE -->
-        <div class="flex-col w-full text-gray-600">
+        <div class="main-area flex-col w-full text-gray-600">
           <div
-            class="top-panel flex w-full justify-center items-center shadow-sm"
+            class="top-panel flex w-full justify-center items-center shadow-sm sticky top-0 bg-white z-10"
           >
-            <div class="search-bar flex w-1/2">
+            <!-- <div class="search-bar flex w-1/2">
               <form
                 class="search flex w-full justify-evenly m-3 p-2 rounded-xl shadow-inner"
               >
@@ -144,7 +147,7 @@
                     src="./src/img/avatar/avatar-anisha.png"
                     alt="Profile Picture"
                   />
-                  <span>Anisha Lee</span>
+                  <span class="username-logged-in">Anisha Lee</span>
                   <button class="btn-user-info-dropdown hover:scale-125">
                     <img src="./src/img/arrowDown.png" alt="Arrow" />
                   </button>
@@ -174,7 +177,7 @@
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <!-- Main Panel will be rendered conditionally -->
           <div class="main-panel">

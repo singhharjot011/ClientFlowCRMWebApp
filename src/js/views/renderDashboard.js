@@ -6,9 +6,24 @@ class RenderDashboard extends Views {
 
   _newLeadsLastWeek() {
     return this._data.filter((i) => {
-      return Math.ceil(
-        (Date.now() - new Date(i.createdAt).getTime()) / (24 * 60 * 60 * 1000) <
-          8
+      return (
+        Math.ceil(
+          (Date.now() - new Date(i.createdAt).getTime()) /
+            (24 * 60 * 60 * 1000) <
+            8
+        ) && i.cases.length === 0
+      );
+    }).length;
+  }
+
+  _newClientsLastWeek() {
+    return this._data.filter((i) => {
+      return (
+        Math.ceil(
+          (Date.now() - new Date(i.createdAt).getTime()) /
+            (24 * 60 * 60 * 1000) <
+            8
+        ) && i.cases.length > 0
       );
     }).length;
   }
@@ -17,7 +32,12 @@ class RenderDashboard extends Views {
     const pendingCases = this._data
       .map((i) => i.cases)
       .flat()
-      .filter((item) => item.status !== "");
+      .filter(
+        (item) =>
+          item.caseStatus !== "Completed" &&
+          item.caseStatus !== "Closed" &&
+          item.caseStatus !== "Cancelled"
+      );
     return pendingCases.length;
   }
 
@@ -29,7 +49,7 @@ class RenderDashboard extends Views {
 
   _generateMarkup() {
     return `
-      <div class="main-panel">
+      <div class="">
         <div
           class="analysis flex flex-wrap gap-10 p-10 text-neutral-200 shadow-sm"
         >
@@ -41,7 +61,7 @@ class RenderDashboard extends Views {
               src=${require(`../../img/white-pngs/allClients.png`)}
               alt=""
             />
-            <span class="text-3xl">${this._data.length}</span>
+            <span class="text-3xl">${this._newClientsLastWeek()}</span>
             <span class="text-2xl">New Clients </span
             ><span>Last 7 Days</span>
           </div>

@@ -4,15 +4,8 @@ class RenderMyClients extends Views {
   _parentElement = document.querySelector(".main-panel");
   _errorMessage = `Something Went Wrong, Please Try Again Later`;
 
-  addHandlerRender(handler) {
-    ["hashchange", "load"].forEach((ev) => {
-      window.addEventListener(ev, handler);
-    });
-  }
   _filterClients() {
     const allCases = this._data.map((i) => i.cases).flat();
-    console.log(allCases.map((i) => i.assignedTo));
-    console.log(allCases);
     this._data.filter((el) => el.map((i) => i.cases).flat());
   }
 
@@ -36,20 +29,26 @@ class RenderMyClients extends Views {
     <tbody>
       ${this._data
         .map((client) =>
-          client.consultant === "E202"
+          client.consultant === `${this._loggedInConsultant()}`
             ? `<tr
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
       ><th
           scope="row"
           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
         >
-        <a class="text-blue-500" href="#${client.id}">${client.id}</a>
+        <a class="text-blue-500 client-anchor" href="#${client.id}">${
+                client.id
+              }</a>
         </th>
-        <td class="px-6 py-4">${client.name}</td>
-        <td class="px-6 py-4">${client.phone}</td>
+        <td class="px-6 py-4 ${
+          this.isClientLead(client.id) ? "text-green-600 font-bold" : ""
+        } ">${client.name}</td>
+        <td class="px-6 py-4">${this.formatPhoneNumber(client.phone)}</td>
         <td class="px-6 py-4">${client.email}</td>
         <td class="px-6 py-4">
-        ${client.cases[0].caseId}
+        ${
+          client.cases[0] ? client.cases[client.cases.length - 1].caseId : "N/A"
+        }
         </td>
         <td class="px-6 py-4">
         ${

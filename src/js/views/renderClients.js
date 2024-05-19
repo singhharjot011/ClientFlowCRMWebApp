@@ -9,14 +9,6 @@ class RenderClients extends Views {
     this.openAddNewClient();
   }
 
-  returnDateString(date) {
-    const rawDate = new Date(date);
-    const day = rawDate.getDate();
-    const month = rawDate.getMonth();
-    const year = rawDate.getFullYear();
-    return `${month + 1}/${day}/${year}`;
-  }
-
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) =>
       window.addEventListener(ev, handler)
@@ -28,11 +20,21 @@ class RenderClients extends Views {
       e.preventDefault();
       if (!e.target.closest("button") && !e.target.closest("a")) return;
       if (e.target.classList.contains("btn-add")) {
+        localStorage.setItem("lastHash", location.hash);
         location.hash = `addNewClient`;
       }
-      if (e.target.closest("a")) {
+      if (e.target.closest("a")?.classList?.contains("client-anchor")) {
+        localStorage.setItem("lastHash", location.hash);
         location.hash =
           `clientid?` + e.target.closest("a").getAttribute("href");
+      }
+      if (e.target.closest("a")?.classList?.contains("case-anchor")) {
+        localStorage.setItem("lastHash", location.hash);
+        location.hash = `caseid?` + e.target.closest("a").getAttribute("href");
+      }
+      if (e.target.closest("a")?.classList?.contains("task-anchor")) {
+        localStorage.setItem("lastHash", location.hash);
+        location.hash = `taskid?` + e.target.closest("a").getAttribute("href");
       }
     });
   }
@@ -41,7 +43,7 @@ class RenderClients extends Views {
     return `<div class="flex flex-col w-full h-full">
     <div class=" flex w-full justify-end px-5 pt-5">
       <button class="btn-add bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-2 border border-blue-500 active:bg-blue-800 active:text-white hover:border-transparent rounded-lg">
-    + Add
+    + Add New Client
   </button>
       </div><div class="overflow-x-auto shadow-md sm:rounded-lg p-5">
       <table
@@ -69,15 +71,23 @@ class RenderClients extends Views {
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            <a class="text-blue-500" href="#${client.id}">${client.id}</a>
+            <a class="text-blue-500 client-anchor" href="#${client.id}">${
+              client.id
+            }</a>
           </th>
-          <td class="px-6 py-4">${client.name}</td>
-          <td class="px-6 py-4">${client.phone}</td>
+          <td class="px-6 py-4 ${
+            this.isClientLead(client.id) ? "text-green-600 font-bold" : ""
+          } ">${client.name}</td>
+          <td class="px-6 py-4">${this.formatPhoneNumber(client.phone)}</td>
           <td class="px-6 py-4">${client.email}</td>
           <td class="px-6 py-4">${this.returnDateString(client.createdAt)}</td>
 
           <td class="px-6 py-4">
-          ${client.cases[0]?.caseId ? client.cases[0].caseId : `N/A`}
+          ${
+            client.cases[0]
+              ? client.cases[client.cases.length - 1].caseId
+              : "N/A"
+          }
           </td>
           <td class="px-6 py-4">
           ${
